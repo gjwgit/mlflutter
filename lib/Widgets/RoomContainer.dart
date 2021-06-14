@@ -1,8 +1,9 @@
-import 'package:clubhouse/Modules/Room.dart';
-import 'package:clubhouse/Screens/RoomScreen.dart';
-import 'package:clubhouse/Widgets/ImageContainer.dart';
+import 'package:mlflutter/Modules/Room.dart';
+import 'package:mlflutter/Screens/RoomScreen.dart';
+import 'package:mlflutter/Widgets/ImageContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 class RoomContainer extends StatelessWidget {
   final Room room;
@@ -63,7 +64,7 @@ class RoomContainer extends StatelessWidget {
                       child: ImageContainer(
                         width: 45,
                         height: 45,
-                        image: room.speakers[0].profilePicture,
+                        image: room.speakers[1].profilePicture,
                       ),
                     ),
                     Positioned(
@@ -72,7 +73,7 @@ class RoomContainer extends StatelessWidget {
                       child: ImageContainer(
                         width: 45,
                         height: 45,
-                        image: room.speakers[1].profilePicture,
+                        image: room.speakers[0].profilePicture,
                       ),
                     ),
                   ],
@@ -100,7 +101,7 @@ class RoomContainer extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10),
                                   Icon(
-                                    Icons.chat_outlined,
+                                    Icons.topic_outlined,
                                     color: Colors.grey,
                                     size: 20,
                                   ),
@@ -118,17 +119,7 @@ class RoomContainer extends StatelessWidget {
                             ),
                           ),
                           Icon(
-                            Icons.person,
-                            color: Colors.grey,
-                          ),
-                          Text(
-                            ' / ' + room.speakers.length.toString() + ' ',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Icon(
-                            Icons.chat,
+                            Icons.topic,
                             color: Colors.grey,
                           ),
                         ],
