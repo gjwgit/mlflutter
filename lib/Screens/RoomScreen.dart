@@ -13,6 +13,13 @@ class RoomScreen extends StatefulWidget {
 }
 
 class _RoomScreenState extends State<RoomScreen> {
+
+  String truncateWithEllipsis(int cutoff, String myString) {
+    return (myString.length <= cutoff)
+    ? myString
+    : '${myString.substring(0, cutoff)}...';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +70,10 @@ class _RoomScreenState extends State<RoomScreen> {
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(50),
                             topLeft: Radius.circular(50),
+                            bottomRight: Radius.circular(50),
+                            bottomLeft: Radius.circular(50),
                           ),
-                        ),
+                       ),
                         child: ListView(
                           children: [
                             SizedBox(height: 30),
@@ -105,17 +114,19 @@ class _RoomScreenState extends State<RoomScreen> {
                                         width: 50,
                                         height: 50,
                                         image: widget.room.audience[index]
-                                            .profilePicture,
+                                        .profilePicture,
                                       ),
                                       SizedBox(height: 5),
-                                      Text(
-                                        ' ' +
-                                        widget.room.audience[index].name
-                                        .split(' ')[0],
-                                        style: TextStyle(
-                                          // FIX ME Small font otherwise text is too wide
-                                          fontSize: 7, 
-                                          fontWeight: FontWeight.bold,
+                                      Expanded(
+                                        child: Text(
+                                          ' ' +
+                                          truncateWithEllipsis(6, widget.room.audience[index].name
+                                            .split(' ')[0]), //.substring(0,4),
+                                          style: TextStyle(
+                                            // FIX ME Small font otherwise text is too wide
+                                            fontSize: 8, 
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ],
