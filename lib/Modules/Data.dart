@@ -1,40 +1,60 @@
-import 'package:clubhouse/Modules/Member.dart';
-import 'package:clubhouse/Modules/Room.dart';
+import 'package:mlflutter/Modules/Member.dart';
+import 'package:mlflutter/Modules/Room.dart';
 import 'package:flutter/cupertino.dart';
 
 const Color KClubhouseColor = Color(0xfff1efe4);
 
 final List<Member> available = [
   Member(
-    name: 'Do',
-    profilePicture: 'assets/c1.jpg',
+    name: 'azcv',
+    profilePicture: 'assets/azcv.png',
   ),
   Member(
-    name: 'John',
+    name: 'azspeech',
+    profilePicture: 'assets/azspeech.png',
+  ),
+  Member(
+    name: 'cars',
+    profilePicture: 'assets/cars.jpg',
+  ),
+  Member(
+    name: 'colorize',
+    profilePicture: 'assets/colorize.jpg',
+  ),
+  Member(
+    name: 'deepspeech',
+    profilePicture: 'assets/deepspeech.png',
+  ),
+  Member(
+    name: 'cvbp',
     profilePicture: 'assets/c2.jpg',
   ),
   Member(
-    name: 'Sara',
-    profilePicture: 'assets/c4.jpeg',
+    name: 'easyocr',
+    profilePicture: 'assets/c2.jpg',
   ),
   Member(
-    name: 'Tyler',
-    profilePicture: 'assets/c5.jpeg',
+    name: 'facedetect',
+    profilePicture: 'assets/c2.jpg',
   ),
   Member(
-    name: 'Rob',
-    profilePicture: 'assets/c1.jpg',
+    name: 'facematch',
+    profilePicture: 'assets/c2.jpg',
   ),
   Member(
-    name: 'Kal',
-    profilePicture: 'assets/c5.jpeg',
+    name: 'objects',
+    profilePicture: 'assets/c2.jpg',
   ),
   Member(
-    name: 'Ade',
-    profilePicture: 'assets/c4.jpeg',
+    name: 'opencv',
+    profilePicture: 'assets/c2.jpg',
   ),
   Member(
-    name: 'Minh',
+    name: 'pyspeech',
+    profilePicture: 'assets/c2.jpg',
+  ),
+  Member(
+    name: 'webcam',
     profilePicture: 'assets/c2.jpg',
   ),
 ];
