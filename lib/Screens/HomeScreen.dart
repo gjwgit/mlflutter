@@ -33,12 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(
-                          Icons.email_outlined,
+                          Icons.web_outlined,
                           color: Colors.black,
                           size: 30,
                         ),
                         Icon(
-                          Icons.calendar_today,
+                          Icons.help_outline,
                           color: Colors.black,
                           size: 30,
                         ),
@@ -47,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.black,
                           size: 30,
                         ),
-                        ImageContainer(
-                          height: 35,
-                          width: 35,
-                          image: 'assets/c1.jpg',
+                        Icon(
+                          Icons.settings,
+                          color: Colors.black,
+                          size: 30,
                         ),
                       ],
                     ),
