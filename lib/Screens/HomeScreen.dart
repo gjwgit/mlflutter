@@ -1,8 +1,8 @@
-import 'package:clubhouse/Modules/Data.dart';
-import 'package:clubhouse/Screens/MobileHomeScreen.dart';
-import 'package:clubhouse/Screens/WebHomeScreen.dart';
-import 'package:clubhouse/Widgets/ImageContainer.dart';
-import 'package:clubhouse/Widgets/ResponsiveUI.dart';
+import 'package:mlflutter/Modules/Data.dart';
+import 'package:mlflutter/Screens/MobileHomeScreen.dart';
+import 'package:mlflutter/Screens/WebHomeScreen.dart';
+import 'package:mlflutter/Widgets/ImageContainer.dart';
+import 'package:mlflutter/Widgets/ResponsiveUI.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
