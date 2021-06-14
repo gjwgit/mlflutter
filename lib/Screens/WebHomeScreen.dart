@@ -1,8 +1,8 @@
-import 'package:clubhouse/Modules/Data.dart';
-import 'package:clubhouse/Modules/Member.dart';
-import 'package:clubhouse/Screens/MobileHomeScreen.dart';
-import 'package:clubhouse/Widgets/ImageContainer.dart';
-import 'package:clubhouse/Widgets/ResponsiveUI.dart';
+import 'package:mlflutter/Modules/Data.dart';
+import 'package:mlflutter/Modules/Member.dart';
+import 'package:mlflutter/Screens/MobileHomeScreen.dart';
+import 'package:mlflutter/Widgets/ImageContainer.dart';
+import 'package:mlflutter/Widgets/ResponsiveUI.dart';
 import 'package:flutter/material.dart';
 
 class WebHomeScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                     title: ResponsiveUI.isTablet(context)
                         ? null
                         : Text(
-                            'search',
+                            'Search',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -42,14 +42,14 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   SizedBox(height: 20),
                   ListTile(
                     leading: Icon(
-                      Icons.email_outlined,
+                      Icons.web_outlined,
                       color: Colors.black,
                       size: 30,
                     ),
                     title: ResponsiveUI.isTablet(context)
                         ? null
                         : Text(
-                            'Invites',
+                            'Home Page',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -59,14 +59,14 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   SizedBox(height: 20),
                   ListTile(
                     leading: Icon(
-                      Icons.calendar_today,
+                      Icons.help_outline,
                       color: Colors.black,
                       size: 30,
                     ),
                     title: ResponsiveUI.isTablet(context)
                         ? null
                         : Text(
-                            'Upcoming',
+                            'Survivor',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -92,15 +92,15 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   ),
                   SizedBox(height: 20),
                   ListTile(
-                    leading: ImageContainer(
-                      height: 35,
-                      width: 35,
-                      image: 'assets/c1.jpg',
+                    leading: Icon(
+                      Icons.settings,
+                      color: Colors.black,
+                      size: 30,
                     ),
                     title: ResponsiveUI.isTablet(context)
                         ? null
                         : Text(
-                            'Profile',
+                            'Settings',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -128,7 +128,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Available to chat',
+                    'All Curated Packages',
                     style: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 15,
