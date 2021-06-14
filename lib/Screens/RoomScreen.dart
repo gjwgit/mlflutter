@@ -38,11 +38,11 @@ class _RoomScreenState extends State<RoomScreen> {
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.keyboard_arrow_down,
+                                  Icons.keyboard_arrow_left,
                                   size: 40,
                                 ),
                                 Text(
-                                  'Home',
+                                  'Catalogue',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
@@ -102,18 +102,19 @@ class _RoomScreenState extends State<RoomScreen> {
                                   return Column(
                                     children: [
                                       ImageContainer(
-                                        width: 70,
-                                        height: 70,
+                                        width: 50,
+                                        height: 50,
                                         image: widget.room.audience[index]
                                             .profilePicture,
                                       ),
                                       SizedBox(height: 5),
                                       Text(
                                         ' ' +
-                                            widget.room.audience[index].name
-                                                .split(' ')[0],
+                                        widget.room.audience[index].name
+                                        .split(' ')[0],
                                         style: TextStyle(
-                                          fontSize: 15,
+                                          // FIX ME Small font otherwise text is too wide
+                                          fontSize: 7, 
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
