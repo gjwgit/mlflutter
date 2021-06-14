@@ -102,6 +102,7 @@ class RoomContainer extends StatelessWidget {
                                   SizedBox(width: 10),
                                   Icon(
                                     Icons.topic_outlined,
+                                    // CupertinoIcons.archivebox, 
                                     color: Colors.grey,
                                     size: 20,
                                   ),
