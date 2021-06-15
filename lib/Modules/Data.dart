@@ -7,7 +7,7 @@ const Color KClubhouseColor = Color(0xfff1efe4);
 final List<Member> available = [
   Member(
     name: 'audit',
-    profilePicture: 'assets/c1.jpg',
+    profilePicture: 'assets/audit.png',
   ),
   Member(
     name: 'azcv',
@@ -80,6 +80,53 @@ final List<Member> available = [
 ];
 
 final List<Room> rooms = [
+  Room(
+    name: 'Classification',
+    speakers: [
+      Member(
+        name: 'audit',
+        profilePicture: 'assets/audit.png',
+      ),
+      Member(
+        name: 'cars',
+        profilePicture: 'assets/cars.jpg',
+      ),
+    ],
+    audience: [
+      Member(
+        name: 'audit',
+        profilePicture: 'assets/audit.png',
+      ),
+      Member(
+        name: 'cars',
+        profilePicture: 'assets/cars.jpg',
+      ),
+      Member(
+        name: 'iris',
+        profilePicture: 'assets/c2.jpg',
+      ),
+      Member(
+        name: 'objects',
+        profilePicture: 'assets/c2.jpg',
+      ),
+      Member(
+        name: 'ocsvm',
+        profilePicture: 'assets/c2.jpg',
+      ),
+      Member(
+        name: 'pyiris',
+        profilePicture: 'assets/c2.jpg',
+      ),
+      Member(
+        name: 'rain',
+        profilePicture: 'assets/c4.jpeg',
+      ),
+      Member(
+        name: 'sgnc',
+        profilePicture: 'assets/c5.jpeg',
+      ),
+    ],
+  ),
   Room(
     // Keyword/Category
     name: 'Computer Vision',
@@ -174,7 +221,7 @@ final List<Room> rooms = [
     speakers: [
       Member(
         name: 'audit',
-        profilePicture: 'assets/c4.jpeg',
+        profilePicture: 'assets/audit.png',
       ),
       Member(
         name: 'iris',
@@ -184,7 +231,7 @@ final List<Room> rooms = [
     audience: [
       Member(
         name: 'audit',
-        profilePicture: 'assets/c1.jpg',
+        profilePicture: 'assets/audit.png',
       ),
       Member(
         name: 'rain',
@@ -201,155 +248,6 @@ final List<Room> rooms = [
       Member(
         name: 'ocsvm',
         profilePicture: 'assets/c5.jpeg',
-      ),
-    ],
-  ),
-  Room(
-    name: 'Personal Brand',
-    speakers: [
-      Member(
-        name: 'Rob',
-        profilePicture: 'assets/c1.jpg',
-      ),
-      Member(
-        name: 'John',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Sara',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Tyler',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-    ],
-    audience: [
-      Member(
-        name: 'Rob',
-        profilePicture: 'assets/c1.jpg',
-      ),
-      Member(
-        name: 'John',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Sara',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Tyler',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-      Member(
-        name: 'Kal',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-      Member(
-        name: 'Ade',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Minh',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Do',
-        profilePicture: 'assets/c1.jpg',
-      ),
-    ],
-  ),
-  Room(
-    name: 'Photographers',
-    speakers: [
-      Member(
-        name: 'Sara',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Tyler',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-    ],
-    audience: [
-      Member(
-        name: 'Rob',
-        profilePicture: 'assets/c1.jpg',
-      ),
-      Member(
-        name: 'John',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Sara',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Tyler',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-      Member(
-        name: 'Kal',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-      Member(
-        name: 'Ade',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Minh',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Do',
-        profilePicture: 'assets/c1.jpg',
-      ),
-    ],
-  ),
-  Room(
-    name: 'Photographers',
-    speakers: [
-      Member(
-        name: 'Sara',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Tyler',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-    ],
-    audience: [
-      Member(
-        name: 'Rob',
-        profilePicture: 'assets/c1.jpg',
-      ),
-      Member(
-        name: 'John',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Sara',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Tyler',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-      Member(
-        name: 'Kal',
-        profilePicture: 'assets/c5.jpeg',
-      ),
-      Member(
-        name: 'Ade',
-        profilePicture: 'assets/c4.jpeg',
-      ),
-      Member(
-        name: 'Minh',
-        profilePicture: 'assets/c2.jpg',
-      ),
-      Member(
-        name: 'Do',
-        profilePicture: 'assets/c1.jpg',
       ),
     ],
   ),
