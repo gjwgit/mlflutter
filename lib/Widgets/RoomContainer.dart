@@ -3,7 +3,7 @@ import 'package:mlflutter/Screens/RoomScreen.dart';
 import 'package:mlflutter/Widgets/ImageContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:flutter/cupertino.dart';
 
 class RoomContainer extends StatelessWidget {
   final Room room;
@@ -101,8 +101,7 @@ class RoomContainer extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10),
                                   Icon(
-                                    Icons.topic_outlined,
-                                    // CupertinoIcons.archivebox, 
+                                    CupertinoIcons.archivebox, 
                                     color: Colors.grey,
                                     size: 20,
                                   ),
@@ -120,7 +119,7 @@ class RoomContainer extends StatelessWidget {
                             ),
                           ),
                           Icon(
-                            Icons.topic,
+                            CupertinoIcons.archivebox_fill, 
                             color: Colors.grey,
                           ),
                         ],
