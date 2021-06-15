@@ -3,6 +3,8 @@ import 'package:mlflutter/Modules/Room.dart';
 import 'package:mlflutter/Widgets/ImageContainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RoomScreen extends StatefulWidget {
   final Room room;
@@ -124,7 +126,7 @@ class _RoomScreenState extends State<RoomScreen> {
                                             .split(' ')[0]), //.substring(0,4),
                                           style: TextStyle(
                                             // FIX ME Small font otherwise text is too wide
-                                            fontSize: 8, 
+                                            fontSize: kIsWeb || ! Platform.isAndroid ? 15 : 8, 
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
