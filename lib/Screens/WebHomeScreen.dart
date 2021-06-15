@@ -137,33 +137,29 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   ),
                   SizedBox(height: 20),
                   ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: available.length,
-                      itemBuilder: (context, index) {
-                        Member member = available[index];
-                        return ListTile(
-                          leading: ImageContainer(
-                            height: 35,
-                            width: 35,
-                            image: member.profilePicture,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: available.length,
+                    itemBuilder: (context, index) {
+                      Member member = available[index];
+                      return ListTile(
+                        leading: ImageContainer(
+                          height: 35,
+                          width: 35,
+                          image: member.profilePicture,
+                        ),
+                        title: ResponsiveUI.isTablet(context)
+                        ? null
+                        : Text(
+                          member.name,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
                           ),
-                          title: ResponsiveUI.isTablet(context)
-                              ? null
-                              : Text(
-                                  member.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.add_circle,
-                              color: Colors.green,
-                            ),
-                          ),
-                        );
-                      })
+                        ),
+                      );
+                    }
+                  )
                 ],
               ),
             ),
