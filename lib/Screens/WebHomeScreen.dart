@@ -28,68 +28,34 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                       Icons.search,
                       color: Colors.black,
                       size: 30,
-                    ),
+                    ), // Icon
                     title: ResponsiveUI.isTablet(context)
-                        ? null
-                        : Text(
-                            'Search',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                  ),
-                  SizedBox(height: 20),
-                  ListTile(
-                    leading: Icon(
-                      Icons.web_outlined,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    title: ResponsiveUI.isTablet(context)
-                        ? null
-                        : Text(
-                            'Home Page',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                  ),
+                    ? null
+                    : Text(
+                      'Search',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ), // TextStyle
+                    ), // Text
+                  ), // ListTile
                   SizedBox(height: 20),
                   ListTile(
                     leading: Icon(
                       Icons.help_outline,
                       color: Colors.black,
                       size: 30,
-                    ),
+                    ), // Icon
                     title: ResponsiveUI.isTablet(context)
-                        ? null
-                        : Text(
-                            'Survivor',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                  ),
-                  SizedBox(height: 20),
-                  ListTile(
-                    leading: Icon(
-                      Icons.notifications_none,
-                      color: Colors.black,
-                      size: 30,
+                    ? null
+                    : Text(
+                      'Survivor',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    title: ResponsiveUI.isTablet(context)
-                        ? null
-                        : Text(
-                            'Notifications',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                  ),
+                  ), // ListTile 
                   SizedBox(height: 20),
                   ListTile(
                     leading: Icon(

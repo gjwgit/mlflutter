@@ -34,50 +34,11 @@ class _RoomScreenState extends State<RoomScreen> {
               children: [
                 Column(
                   children: [
-                    // SizedBox(height: 20),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       GestureDetector(
-                    //         onTap: () {
-                    //           Navigator.pop(context);
-                    //         },
-                    //         child: Row(
-                    //           children: [
-                    //             // Icon(
-                    //             //   Icons.keyboard_arrow_left,
-                    //             //   size: 40,
-                    //             // ),
-                    //             Text(
-                    //               widget.room.name,
-                    //               style: TextStyle(
-                    //                 fontSize: 20,
-                    //                 fontWeight: FontWeight.w500,
-                    //               ),
-                    //             ), // Text
-                    //             Text(
-                    //               widget.room.description == null
-                    //               ? 'Another category of packages.'
-                    //               : widget.room.description,
-                    //               style: TextStyle(
-                    //                 fontSize: 12,
-                    //                 fontWeight: FontWeight.w500,
-                    //               ), // TextStyle
-                    //             ), // Text
-                    //           ], // children
-                    //         ), // Row
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: 20),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
-                          color: KClubhouseColor,
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(50),
                             topLeft: Radius.circular(50),
@@ -165,7 +126,37 @@ class _RoomScreenState extends State<RoomScreen> {
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.keyboard_arrow_left,
+                                  size: 40,
+                                ),
+                                Text(
+                                  "MLHub.AI Rooms",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ), // Text
+                              ], // children
+                            ), // Row
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ],

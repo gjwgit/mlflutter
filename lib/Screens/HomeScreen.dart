@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'MLHub',
+                    'MLHub.AI Rooms',
                     style: TextStyle(
                       color: Colors.white,
                     ), // TextStyle
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: KClubhouseColor,
               elevation: 0,
               title: Image.asset(
-                'assets/clubhouse.png',
+                'assets/mlhubai.png',
                 width: 200,
               ), // Image.asset
             ), // AppBar
