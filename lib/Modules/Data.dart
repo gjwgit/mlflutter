@@ -31,11 +31,11 @@ final List<Member> available = [
   ),
   Member(
     name: 'cvbp',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/cvbp.jpg',
   ),
   Member(
     name: 'easyocr',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/easyocr.png',
   ),
   Member(
     name: 'facedetect',
@@ -51,19 +51,19 @@ final List<Member> available = [
   ),
   Member(
     name: 'objects',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/objects.png',
   ),
   Member(
     name: 'ocsvm',
-    profilePicture: 'assets/c5.jpeg',
+    profilePicture: 'assets/ocsvm.png',
   ),
   Member(
     name: 'opencv',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/opencv.png',
   ),
   Member(
     name: 'pyiris',
-    profilePicture: 'assets/c4.jpeg',
+    profilePicture: 'assets/iris.png',
   ),
   Member(
     name: 'pyspeech',
@@ -71,11 +71,11 @@ final List<Member> available = [
   ),
   Member(
     name: 'rain',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/rain.png',
   ),
   Member(
     name: 'webcam',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/webcam.png',
   ),
 ];
 
@@ -104,27 +104,27 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'iris',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/iris.png',
       ),
       Member(
         name: 'objects',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/objects.png',
       ),
       Member(
         name: 'ocsvm',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/ocsvm.png',
       ),
       Member(
         name: 'pyiris',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/iris.png',
       ),
       Member(
         name: 'rain',
-        profilePicture: 'assets/c4.jpeg',
+        profilePicture: 'assets/rain.png',
       ),
       Member(
         name: 'sgnc',
-        profilePicture: 'assets/c5.jpeg',
+        profilePicture: 'assets/sgnc.png',
       ),
     ],
   ),
@@ -158,11 +158,11 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'cvbp',
-        profilePicture: 'assets/c1.jpg',
+        profilePicture: 'assets/cvbp.jpg',
       ),
       Member(
         name: 'easyocr',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/easyocr.png',
       ),
       Member(
         name: 'facedetect',
@@ -174,15 +174,15 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'objects',
-        profilePicture: 'assets/c5.jpeg',
+        profilePicture: 'assets/objects.png',
       ),
       Member(
         name: 'opencv',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/opencv.png',
       ),
       Member(
         name: 'webcam',
-        profilePicture: 'assets/c1.jpg',
+        profilePicture: 'assets/webcam.png',
       ),
     ],
   ),
@@ -228,7 +228,7 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'iris',
-        profilePicture: 'assets/c5.jpeg',
+        profilePicture: 'assets/iris.png',
       ),
     ],
     audience: [
@@ -238,11 +238,11 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'rain',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/rain.png',
       ),
       Member(
         name: 'pyiris',
-        profilePicture: 'assets/c4.jpeg',
+        profilePicture: 'assets/iris.png',
       ),
       Member(
         name: 'movies',
@@ -250,7 +250,7 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'ocsvm',
-        profilePicture: 'assets/c5.jpeg',
+        profilePicture: 'assets/ocsvm.png',
       ),
     ],
   ),
