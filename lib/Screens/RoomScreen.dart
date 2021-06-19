@@ -34,48 +34,57 @@ class _RoomScreenState extends State<RoomScreen> {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.keyboard_arrow_left,
-                                  size: 40,
-                                ),
-                                Text(
-                                  'Catalogue',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20),
+                    // SizedBox(height: 20),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           Navigator.pop(context);
+                    //         },
+                    //         child: Row(
+                    //           children: [
+                    //             // Icon(
+                    //             //   Icons.keyboard_arrow_left,
+                    //             //   size: 40,
+                    //             // ),
+                    //             Text(
+                    //               widget.room.name,
+                    //               style: TextStyle(
+                    //                 fontSize: 20,
+                    //                 fontWeight: FontWeight.w500,
+                    //               ),
+                    //             ), // Text
+                    //             Text(
+                    //               widget.room.description == null
+                    //               ? 'Another category of packages.'
+                    //               : widget.room.description,
+                    //               style: TextStyle(
+                    //                 fontSize: 12,
+                    //                 fontWeight: FontWeight.w500,
+                    //               ), // TextStyle
+                    //             ), // Text
+                    //           ], // children
+                    //         ), // Row
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(height: 20),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: KClubhouseColor,
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(50),
                             topLeft: Radius.circular(50),
                             bottomRight: Radius.circular(50),
                             bottomLeft: Radius.circular(50),
                           ),
-                       ),
+                        ),
                         child: ListView(
                           children: [
                             SizedBox(height: 30),
@@ -92,7 +101,23 @@ class _RoomScreenState extends State<RoomScreen> {
                                   ),
                                 ),
                               ],
-                            ),
+                            ), // Row
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.room.description == null
+                                    ? 'Another category of packages.'
+                                    : widget.room.description,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      letterSpacing: 1,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ), // Row
                             SizedBox(height: 30),
                             Padding(
                               padding:

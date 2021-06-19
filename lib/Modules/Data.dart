@@ -82,6 +82,7 @@ final List<Member> available = [
 final List<Room> rooms = [
   Room(
     name: 'Classification',
+    description: 'AI models that classify things.',
     speakers: [
       Member(
         name: 'audit',
@@ -128,8 +129,8 @@ final List<Room> rooms = [
     ],
   ),
   Room(
-    // Keyword/Category
     name: 'Computer Vision',
+    description: 'AI models for seeing things.',
     // Randomly select 2 to display here.
     speakers: [
       Member(
@@ -187,6 +188,7 @@ final List<Room> rooms = [
   ),
   Room(
     name: 'Natural Language Processing',
+    description: 'AI models that listen and talk.',
     speakers: [
       Member(
         name: 'azspeech',
@@ -218,6 +220,7 @@ final List<Room> rooms = [
   ),
   Room(
     name: 'Prediction',
+    description: 'AI models that predict things.',
     speakers: [
       Member(
         name: 'audit',

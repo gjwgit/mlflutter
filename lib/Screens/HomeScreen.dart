@@ -17,59 +17,55 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: KClubhouseColor,
       appBar: ResponsiveUI.isMobile(context)
           ? AppBar(
-              backgroundColor: KClubhouseColor,
-              elevation: 0,
+              // backgroundColor: KClubhouseColor,
+              // elevation: 0,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 30,
-                  ),
+                  Text(
+                    'MLHub',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ), // TextStyle
+                  ), // Text
                   Container(
-                    width: 220,
+                    width: 120,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(
-                          Icons.web_outlined,
-                          color: Colors.black,
+                          Icons.search,
+                          color: Colors.white,
                           size: 30,
-                        ),
+                        ), // Icon Search
                         Icon(
                           Icons.help_outline,
-                          color: Colors.black,
-                          size: 30,
-                        ),
-                        Icon(
-                          Icons.notifications_none,
-                          color: Colors.black,
+                          color: Colors.white,
                           size: 30,
                         ),
                         Icon(
                           Icons.settings,
-                          color: Colors.black,
+                          color: Colors.white,
                           size: 30,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
+                        ), //Icon
+                      ], // children
+                    ), // Row
+                  ), // Container
+                ], // children
+              ), // Row
+            ) //AppBar
           : AppBar(
               backgroundColor: KClubhouseColor,
               elevation: 0,
               title: Image.asset(
                 'assets/clubhouse.png',
                 width: 200,
-              ),
-            ),
+              ), // Image.asset
+            ), // AppBar
       body: ResponsiveUI(
         mobile: MobileHomeScreen(),
         web: WebHomeScreen(),
-      ),
-    );
-  }
-}
+      ), // ResponsieUI
+    ); // Scaffold 
+  } // build
+} // HomeScreen
