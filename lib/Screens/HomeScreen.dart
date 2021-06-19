@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icons.settings,
                           color: Colors.white,
                           size: 30,
-                        ), //Icon
+                        ), // Icon
                       ], // children
                     ), // Row
                   ), // Container
