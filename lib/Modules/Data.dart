@@ -18,8 +18,12 @@ final List<Member> packages = [
     profilePicture: 'assets/azspeech.png',
   ),
   Member(
+    name: 'aztext',
+    profilePicture: 'assets/aztext.png',
+  ),
+  Member(
     name: 'cars',
-    profilePicture: 'assets/cars.jpg',
+    profilePicture: 'assets/cars.png',
   ),
   Member(
     name: 'colorize',
@@ -47,7 +51,7 @@ final List<Member> packages = [
   ),
   Member(
     name: 'movies',
-    profilePicture: 'assets/c5.jpeg',
+    profilePicture: 'assets/movies.png',
   ),
   Member(
     name: 'objects',
@@ -67,7 +71,7 @@ final List<Member> packages = [
   ),
   Member(
     name: 'pyspeech',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/pyspeech.png',
   ),
   Member(
     name: 'rain',
@@ -90,7 +94,7 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'cars',
-        profilePicture: 'assets/cars.jpg',
+        profilePicture: 'assets/cars.png',
       ),
       Member(
         name: 'iris',
@@ -128,7 +132,7 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'cars',
-        profilePicture: 'assets/cars.jpg',
+        profilePicture: 'assets/cars.png',
       ),
       Member(
         name: 'colorize',
@@ -170,11 +174,11 @@ final List<Room> rooms = [
     audience: [
       Member(
         name: 'azspeech',
-        profilePicture: 'assets/c1.jpg',
+        profilePicture: 'assets/azspeech.png',
       ),
       Member(
         name: 'aztext',
-        profilePicture: 'assets/c2.jpg',
+        profilePicture: 'assets/aztext.png',
       ),
       Member(
         name: 'deepspeech',
@@ -182,7 +186,7 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'pyspeech',
-        profilePicture: 'assets/c5.jpeg',
+        profilePicture: 'assets/pyspeech.png',
       ),
     ],
   ),
@@ -204,7 +208,7 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'movies',
-        profilePicture: 'assets/c5.jpeg',
+        profilePicture: 'assets/movies.png',
       ),
       Member(
         name: 'ocsvm',
