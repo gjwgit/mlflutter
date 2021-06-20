@@ -105,9 +105,9 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: available.length,
+                    itemCount: packages.length,
                     itemBuilder: (context, index) {
-                      Member member = available[index];
+                      Member member = packages[index];
                       return ListTile(
                         leading: ImageContainer(
                           height: 35,

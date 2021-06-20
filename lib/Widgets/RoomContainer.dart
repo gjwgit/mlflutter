@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/cupertino.dart';
 
+import "dart:math";
+
 class RoomContainer extends StatelessWidget {
   final Room room;
+  final showcase;  // The members to showcase on Home.
 
-  const RoomContainer({Key key, this.room}) : super(key: key);
+  const RoomContainer({Key key, this.room, this.showcase}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -64,7 +67,7 @@ class RoomContainer extends StatelessWidget {
                       child: ImageContainer(
                         width: 45,
                         height: 45,
-                        image: room.speakers[1].profilePicture,
+                        image: room.audience[showcase[1]].profilePicture,
                       ),
                     ),
                     Positioned(
@@ -73,7 +76,7 @@ class RoomContainer extends StatelessWidget {
                       child: ImageContainer(
                         width: 45,
                         height: 45,
-                        image: room.speakers[0].profilePicture,
+                        image: room.audience[showcase[0]].profilePicture,
                       ),
                     ),
                   ],
@@ -85,14 +88,14 @@ class RoomContainer extends StatelessWidget {
                       ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: room.speakers.length,
+                          itemCount: 2,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: [
                                   Text(
-                                    room.speakers[index].name,
+                                    room.audience[showcase[index]].name,
                                     style: TextStyle(
                                       fontSize: 18,
                                       letterSpacing: 1,

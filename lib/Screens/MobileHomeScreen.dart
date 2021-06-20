@@ -2,6 +2,7 @@ import 'package:mlflutter/Modules/Data.dart';
 import 'package:mlflutter/Modules/Room.dart';
 import 'package:mlflutter/Widgets/RoomContainer.dart';
 import 'package:flutter/material.dart';
+import "dart:math";
 
 class MobileHomeScreen extends StatefulWidget {
   @override
@@ -21,8 +22,15 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
               itemCount: rooms.length,
               itemBuilder: (context, index) {
                 Room room = rooms[index];
+                // Generate two random members to showcase at Home.
+                var rng = new Random();
+                int rm1 = rng.nextInt(room.audience.length);
+                int rm2 = rng.nextInt(room.audience.length);
+                if (rm1 == rm2) rm2 = (rm2+1)%room.audience.length;
+                var rm = [rm1,rm2];
                 return RoomContainer(
                   room: room,
+                  showcase: rm,
                 );
               },
             ),

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 const Color KClubhouseColor = Color(0xfff1efe4);
 
-final List<Member> available = [
+final List<Member> packages = [
   Member(
     name: 'audit',
     profilePicture: 'assets/audit.png',
@@ -83,16 +83,6 @@ final List<Room> rooms = [
   Room(
     name: 'Classification',
     description: 'AI models that classify things.',
-    speakers: [
-      Member(
-        name: 'audit',
-        profilePicture: 'assets/audit.png',
-      ),
-      Member(
-        name: 'cars',
-        profilePicture: 'assets/cars.jpg',
-      ),
-    ],
     audience: [
       Member(
         name: 'audit',
@@ -131,18 +121,6 @@ final List<Room> rooms = [
   Room(
     name: 'Computer Vision',
     description: 'AI models for seeing things.',
-    // Randomly select 2 to display here.
-    speakers: [
-      Member(
-        name: 'azcv',
-        profilePicture: 'assets/azcv.png',
-      ),
-      Member(
-        name: 'colorize',
-        profilePicture: 'assets/colorize.jpg',
-      ),
-    ],
-    // Display all of them in this category here.
     audience: [
       Member(
         name: 'azcv',
@@ -189,16 +167,6 @@ final List<Room> rooms = [
   Room(
     name: 'Natural Language Processing',
     description: 'AI models that listen and talk.',
-    speakers: [
-      Member(
-        name: 'azspeech',
-        profilePicture: 'assets/azspeech.png',
-      ),
-      Member(
-        name: 'deepspeech',
-        profilePicture: 'assets/deepspeech.png',
-      ),
-    ],
     audience: [
       Member(
         name: 'azspeech',
@@ -221,16 +189,6 @@ final List<Room> rooms = [
   Room(
     name: 'Prediction',
     description: 'AI models that predict things.',
-    speakers: [
-      Member(
-        name: 'audit',
-        profilePicture: 'assets/audit.png',
-      ),
-      Member(
-        name: 'iris',
-        profilePicture: 'assets/iris.png',
-      ),
-    ],
     audience: [
       Member(
         name: 'audit',
