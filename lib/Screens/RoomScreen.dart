@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'dart:io' show Platform;
+
 import 'package:mlflutter/Modules/Data.dart';
 import 'package:mlflutter/Modules/Room.dart';
 import 'package:mlflutter/Widgets/ImageContainer.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RoomScreen extends StatefulWidget {
   final Room room;
@@ -68,7 +70,7 @@ class _RoomScreenState extends State<RoomScreen> {
                                 Expanded(
                                   child: Text(
                                     widget.room.description == null
-                                    ? 'Another category of packages.'
+                                    ? 'Yet another category of packages.'
                                     : widget.room.description,
                                     style: TextStyle(
                                       fontSize: 12,
@@ -98,11 +100,22 @@ class _RoomScreenState extends State<RoomScreen> {
                                 itemBuilder: (_, index) {
                                   return Column(
                                     children: [
-                                      ImageContainer(
-                                        width: 50,
-                                        height: 50,
-                                        image: widget.room.audience[index]
-                                        .profilePicture,
+                                      GestureDetector(
+                                        child: ImageContainer(
+                                          width: 50,
+                                          height: 50,
+                                          image: widget.room.audience[index].profilePicture,
+                                        ),
+                                        onTap: () {
+                                          print("Button tapped $index");
+                                          Navigator.pop(context);
+                                        },
+                                        onDoubleTap: () {
+                                          print("Button double tapped $index");
+                                        },
+                                        onLongPress: () {
+                                          print("Button long pressed $index");
+                                        },
                                       ),
                                       SizedBox(height: 5),
                                       Expanded(
