@@ -90,8 +90,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             alignment: Alignment.centerRight,
             child: Padding(
               padding: const EdgeInsets.only(left: 10, top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   Text(
                     'All Curated Packages',
@@ -125,7 +124,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                         ),
                       );
                     }
-                  )
+                  ),
                 ],
               ),
             ),
