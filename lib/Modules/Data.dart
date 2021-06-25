@@ -43,11 +43,11 @@ final List<Member> packages = [
   ),
   Member(
     name: 'facedetect',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/facedetect.png',
   ),
   Member(
     name: 'facematch',
-    profilePicture: 'assets/c2.jpg',
+    profilePicture: 'assets/facematch.png',
   ),
   Member(
     name: 'movies',
@@ -148,11 +148,11 @@ final List<Room> rooms = [
       ),
       Member(
         name: 'facedetect',
-        profilePicture: 'assets/c1.jpg',
+        profilePicture: 'assets/facedetect.png',
       ),
       Member(
         name: 'facematch',
-        profilePicture: 'assets/c4.jpeg',
+        profilePicture: 'assets/facematch.png',
       ),
       Member(
         name: 'objects',
