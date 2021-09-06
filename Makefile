@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Friday 2021-03-19 17:31:43 AEDT Graham Williams>
+# Time-stamp: <Monday 2021-09-06 22:14:38 AEST Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -81,4 +81,5 @@ help::
 	@echo "$$HELP"
 
 install:
-	@echo "Instructions to install go here"
+	flutter build web
+	rsync -avzh build/web/ mlhub.ai:apps/mlhub2/app/
