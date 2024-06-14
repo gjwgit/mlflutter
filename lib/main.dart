@@ -34,7 +34,17 @@ import 'package:window_manager/window_manager.dart';
 import 'package:mlflutter/language_process.dart';
 import 'package:mlflutter/log.dart';
 
+// Check if this is a production (--release) version.
+
+const bool isProduction = bool.fromEnvironment('dart.vm.product');
+
 void main() async {
+  // In production do not display [debguPrint] messages.
+
+  if (isProduction) {
+    debugPrint = (String? message, {int? wrapWidth}) {};
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   WindowManager.instance.setMinimumSize(const Size(700, 500));
