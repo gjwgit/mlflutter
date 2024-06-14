@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Monday 2021-09-06 22:14:38 AEST Graham Williams>
+# Time-stamp: <Tuesday 2024-06-11 14:21:25 +1000 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -10,69 +10,56 @@
 #
 ########################################################################
 
+# App is often the current directory name.
+#
 # App version numbers
 #   Major release
 #   Minor update
 #   Trivial update or bug fix
 
-APP=myapp
-VER=0.0.1
+APP=$(shell pwd | xargs basename)
+VER=
 DATE=$(shell date +%Y-%m-%d)
 
+# Identify a destination used by install.mk
+
+DEST=/var/www/html/$(APP)
+
 ########################################################################
-# Supported modules.
+# Supported Makefile modules.
 
-INC_BASE    = $(HOME)/.local/share/make
-INC_CLEAN   = $(INC_BASE)/clean.mk
-INC_R       = $(INC_BASE)/r.mk
-INC_KNITR   = $(INC_BASE)/knitr.mk
-INC_PANDOC  = $(INC_BASE)/pandoc.mk
-INC_GIT     = $(INC_BASE)/git.mk
-INC_AZURE   = $(INC_BASE)/azure.mk
-INC_LATEX   = $(INC_BASE)/latex.mk
-INC_PDF     = $(INC_BASE)/pdf.mk
-INC_DOCKER  = $(INC_BASE)/docker.mk
-INC_MLHUB   = $(INC_BASE)/mlhub.mk
-INC_WEBCAM  = $(INC_BASE)/webcam.mk
+# Often the support Makefiles will be in the local support folder, or
+# else installed in the local user's shares.
 
-ifneq ("$(wildcard $(INC_CLEAN))","")
-  include $(INC_CLEAN)
+INC_BASE=$(HOME)/.local/share/make
+INC_BASE=support
+
+# Specific Makefiles will be loaded if they are found in
+# INC_BASE. Sometimes the INC_BASE is shared by multiple local
+# Makefiles and we want to skip specific makes. Simply define the
+# appropriate INC to a non-existant location and it will be skipped.
+
+INC_DOCKER=skip
+INC_MLHUB=skip
+INC_WEBCAM=skip
+
+# Load any modules available.
+
+INC_MODULE=$(INC_BASE)/modules.mk
+
+ifneq ("$(wildcard $(INC_MODULE))","")
+  include $(INC_MODULE)
 endif
-ifneq ("$(wildcard $(INC_R))","")
-  include $(INC_R)
-endif
-ifneq ("$(wildcard $(INC_KNITR))","")
-  include $(INC_KNITR)
-endif
-ifneq ("$(wildcard $(INC_PANDOC))","")
-  include $(INC_PANDOC)
-endif
-ifneq ("$(wildcard $(INC_GIT))","")
-  include $(INC_GIT)
-endif
-ifneq ("$(wildcard $(INC_AZURE))","")
-  include $(INC_AZURE)
-endif
-ifneq ("$(wildcard $(INC_LATEX))","")
-  include $(INC_LATEX)
-endif
-ifneq ("$(wildcard $(INC_PDF))","")
-  include $(INC_PDF)
-endif
-ifneq ("$(wildcard $(INC_DOCKER))","")
-  include $(INC_DOCKER)
-endif
-ifneq ("$(wildcard $(INC_MLHUB))","")
-  include $(INC_MLHUB)
-endif
-ifneq ("$(wildcard $(INC_WEBCAM))","")
-  include $(INC_WEBCAM)
-endif
+
+########################################################################
+# HELP
+#
+# Help for targets defined in this Makefile.
 
 define HELP
 $(APP):
 
-  install	Install the application
+  locals	     No local targets defined yet.
 
 endef
 export HELP
@@ -80,6 +67,8 @@ export HELP
 help::
 	@echo "$$HELP"
 
-install:
-	flutter build web
-	rsync -avzh build/web/ mlhub.ai:apps/mlhub2/app/
+########################################################################
+# LOCAL TARGETS
+
+locals:
+	@echo "This might be the instructions to install $(APP)"
