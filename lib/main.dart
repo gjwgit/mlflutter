@@ -38,11 +38,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   WindowManager.instance.setMinimumSize(const Size(700, 500));
-  runApp(const ProviderScope(child: MLHubApp())); // Wrap with ProviderScope
+  runApp(const ProviderScope(child: MLHub())); // Wrap with ProviderScope
 }
 
-class MLHubApp extends StatelessWidget {
-  const MLHubApp({super.key});
+class MLHub extends StatelessWidget {
+  const MLHub({super.key});
 
   @override
   Widget build(BuildContext context) {
