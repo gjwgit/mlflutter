@@ -10,8 +10,25 @@ MacOS, and Windows).
 ## Linux tar Archive
 
 + Download the mlflutter.tar.gz` file 
-+ `$ tar zxvf mlflutter.tar.gz`
-+ `$ ./mlflutter/mlfutter`
+
+```bash
+tar zxvf mlflutter.tar.gz
+(cd mlflutter; ./mlfutter)
+```
+
+To install for command line invocation for current user:
+
++ Download the mlflutter.tar.gz` file to `~/Downloads`
+
+```bash
+(cd ${HOME}/.local/share; tar zxvf ${HOME}/Downloads/mlflutter.tar.gz)
+cat <<EOF ~/.local/bin/mlflutter
+#!/bin/bash
+
+(cd ${HOME}/.local/share/mlflutter; ./mlflutter)
+EOF
+chmod a+rx ${HOME}/.local/share/mlflutter
+```
 
 ## MacOS
 
