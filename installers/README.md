@@ -41,6 +41,13 @@ sudo tar zxvf mlflutter.tar.gz -C /opt/
 sudo ln -s /opt/mlflutter/mlflutter /usr/local/bin/
 ``` 
 
+To install a desktop icon and make it known to Gnome and KDE:
+
+```bash
+wget https://github.com/gjwgit/mlflutter/blob/dev/installers/mlflutter.desktop -O ${HOME}/.local/share/applications/mlflutter.desktop
+wget https://github.com/gjwgit/mlflutter/blob/dev/installers/mlflutter.svg -O ${HOME}/.local/share/icons/hicolor/scalable/apps/mlflutter.svg
+```
+
 ## MacOS
 
 The package file `mlflutter.dmg` can be installed on MacOS. Download
