@@ -44,8 +44,9 @@ sudo ln -s /opt/mlflutter/mlflutter /usr/local/bin/
 To install a desktop icon and make it known to Gnome and KDE:
 
 ```bash
-wget https://github.com/gjwgit/mlflutter/blob/dev/installers/mlflutter.desktop -O ${HOME}/.local/share/applications/mlflutter.desktop
-wget https://github.com/gjwgit/mlflutter/blob/dev/installers/mlflutter.svg -O ${HOME}/.local/share/icons/hicolor/scalable/apps/mlflutter.svg
+wget https://raw.githubusercontent.com/gjwgit/mlflutter/dev/installers/mlflutter.desktop -O ${HOME}/.local/share/applications/mlflutter.desktop
+mkdir -p ${HOME}/.local/share/icons/hicolor/scalable/apps/
+wget https://raw.githubusercontent.com/gjwgit/mlflutter/dev/installers/mlflutter.svg -O ${HOME}/.local/share/icons/hicolor/scalable/apps/mlflutter.svg
 ```
 
 ## MacOS
