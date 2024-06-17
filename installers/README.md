@@ -10,7 +10,13 @@ MacOS, and Windows).
 ## Prerequisite
 
 Install [mlhub](https:///mlhub.au) and the mlhub
-[openai](https://survivor.togaware.com/mlhub/openai.html).
+[openai](https://survivor.togaware.com/mlhub/openai.html):
+
+```bash
+pip install mlhub
+mlhub configure
+ml install Ting-TT/openai
+```
 
 ## Linux tar Archive
 
