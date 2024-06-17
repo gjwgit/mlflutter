@@ -16,6 +16,7 @@ Install [mlhub](https:///mlhub.au) and the mlhub
 pip install mlhub
 mlhub configure
 ml install Ting-TT/openai
+ml configure openai
 ```
 
 ## Linux tar Archive

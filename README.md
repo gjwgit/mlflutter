@@ -2,7 +2,8 @@
 
 The Flutter App of the MLHub.
 
-A copy of https://github.com/Ting-TT/MLHubFlutter.
+This repository is tracking the upstream repository
+https://github.com/Ting-TT/MLHubFlutter.
 
 ## Installation
 
