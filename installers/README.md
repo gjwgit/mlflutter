@@ -2,7 +2,7 @@
 
 Flutter supports multiple platform targets and the app will run native
 on Android, iOS, Linux, MacOS, and Windows, as well as directly in a
-browser from the web. While the functionality is in theory identical
+browser from the web. While the Flutter functionality is in theory identical
 across all platforms, mlflutter relies on mlhub packages being
 available on the platform. At present we only support dekstops (Linux,
 MacOS, and Windows).
@@ -49,6 +49,9 @@ Or, for a system-wide install:
 sudo tar zxvf mlflutter.tar.gz -C /opt/
 sudo ln -s /opt/mlflutter/mlflutter /usr/local/bin/
 ``` 
+
+Once installed you can run the app as Alt-F2 and type `rattle` then
+Enter.
 
 ## MacOS
 
