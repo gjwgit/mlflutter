@@ -9,8 +9,8 @@ MacOS, and Windows).
 
 ## Prerequisite
 
-Install R. See the instructions from the [R
-Project](https://cloud.r-project.org/).
+Install [mlhub](https:///mlhub.au) and the mlhub
+[openai](https://survivor.togaware.com/mlhub/openai.html).
 
 ## Linux tar Archive
 
