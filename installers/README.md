@@ -21,37 +21,30 @@ ml configure openai
 
 ## Linux tar Archive
 
-+ Download [mlflutter.tar.gz](https://access.togaware.com/mlflutter.tar.gz)
+Download [mlflutter.tar.gz](https://access.togaware.com/mlflutter.tar.gz)
+
+To try it out:
 
 ```bash
 wget https://access.togaware.com/mlflutter.tar.gz
-```
-
-Then, to simply try it locally:
-
-```bash
 tar zxvf mlflutter.tar.gz
-mlflutter/mlfutter)
+mlflutter/mlfutter
 ```
 
-Or, to install for the current user:
+To install for the local user and to make it known to Gnome and KDE,
+with a desktop icon:
 
 ```bash
 wget https://access.togaware.com/mlflutter.tar.gz
 tar zxvf mlflutter.tar.gz -C ${HOME}/.local/share/
 ln -s ${HOME}/.local/share/mlflutter/mlflutter ${HOME}/.local/bin/mlhub
-```
-
-For this user, to install a desktop icon and make it known to Gnome
-and KDE:
-
-```bash
 wget https://raw.githubusercontent.com/gjwgit/mlflutter/dev/installers/mlhub.desktop -O ${HOME}/.local/share/applications/mlhub.desktop
-wget https://github.com/gjwgit/mlflutter/raw/dev/installers/mlhub.png -O ${HOME}/.local/share/icons/hicolor/256x256/apps/mlhub.png
 sed -i "s/USER/$(whoami)/g" ${HOME}/.local/share/applications/mlhub.desktop
+mkdir -p ${HOME}/.local/share/icons/hicolor/256x256/apps/
+wget https://github.com/gjwgit/mlflutter/raw/dev/installers/mlhub.png -O ${HOME}/.local/share/icons/hicolor/256x256/apps/mlhub.png
 ```
 
-Or, for a system-wide install:
+To install for any user on the computer:
 
 ```bash
 wget https://access.togaware.com/mlflutter.tar.gz
@@ -59,7 +52,11 @@ sudo tar zxvf mlflutter.tar.gz -C /opt/
 sudo ln -s /opt/mlflutter/mlflutter /usr/local/bin/mlhub
 ``` 
 
-Once installed you can run the app as Alt-F2 and type `rattle` then
+The `rattle.desktop` and app icon can be installed into
+`/usr/local/share/applications/` and `/usr/local/share/icons/`
+respectively.
+
+Once installed you can run the app as Alt-F2 and type `mlhub` then
 Enter.
 
 ## MacOS
