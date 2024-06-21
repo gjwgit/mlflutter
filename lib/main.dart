@@ -1,6 +1,6 @@
 /// Entry point for the mlflutter app.
 ///
-/// Copyright (C) 2024
+/// Copyright (C) 2024 The Authors
 ///
 /// Licensed under the GNU General Public License, Version 3 (the "License");
 ///
@@ -19,7 +19,7 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Ting Tang, Graham Williams
 
 library;
 
@@ -180,6 +180,28 @@ class _MLHubMainPageState extends State<MLHubMainPage> {
       selectedColor: Theme.of(context).colorScheme.primary,
     );
 
+    Widget aboutButton = ListTile(
+      leading: const Icon(Icons.info),
+      title: const Text('About'),
+      onTap: () {
+        showAboutDialog(
+          context: context,
+          applicationVersion: 'Current version: $_appVersion',
+          applicationLegalese: '© 2024 Authors',
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: SelectableText(
+                'MLHub app provides you with easy access to the latest state of the art in AI, Machine Learning, and Data Science.\nVisit the MLHub Book at  https://survivor.togaware.com/mlhub/',
+              ),
+            ),
+          ],
+        );
+      },
+      selected: selectedIndex == 6,
+      selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+    );
+
     Widget versionLabel = Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
@@ -198,7 +220,9 @@ class _MLHubMainPageState extends State<MLHubMainPage> {
             child: Column(
               children: [
                 Expanded(child: ListView(children: mainButtons)),
-                logButton, // This will always be at the bottom
+                // Below buttons will always be at the bottom
+                logButton,
+                aboutButton,
                 versionLabel,
               ],
             ),
