@@ -54,6 +54,7 @@ wget https://raw.githubusercontent.com/gjwgit/mlflutter/dev/installers/mlflutter
 Or, for a system-wide install:
 
 ```bash
+wget https://access.togaware.com/mlflutter.tar.gz
 sudo tar zxvf mlflutter.tar.gz -C /opt/
 sudo ln -s /opt/mlflutter/mlflutter /usr/local/bin/
 ``` 
