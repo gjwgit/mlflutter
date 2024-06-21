@@ -37,6 +37,7 @@ mlflutter/mlfutter)
 Or, to install for the current user:
 
 ```bash
+wget https://access.togaware.com/mlflutter.tar.gz
 tar zxvf mlflutter.tar.gz -C ${HOME}/.local/share/
 ln -s ${HOME}/.local/share/mlflutter/mlflutter ${HOME}/.local/bin
 ```
