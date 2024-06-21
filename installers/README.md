@@ -27,7 +27,7 @@ ml configure openai
 wget https://access.togaware.com/mlflutter.tar.gz
 ```
 
-Then, to simply try it out locally:
+Then, to simply try it locally:
 
 ```bash
 tar zxvf mlflutter.tar.gz
