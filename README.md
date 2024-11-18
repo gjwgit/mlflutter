@@ -1,6 +1,13 @@
-# ML Flutter &mdash; Simplifying Access to Local AI
+[![Flutter](https://img.shields.io/badge/Made%20with-Flutter-blue.svg)](https://flutter.dev/)
+[![GitHub Issues](https://img.shields.io/github/issues/gjwgit/mlflutter)](https://github.com/gjwgit/mlflutter/issues)
+[![GitHub License](https://img.shields.io/github/license/gjwgit/mlflutter)](https://raw.githubusercontent.com/gjwgit/mlflutter/main/LICENSE)
+[![GitHub commit activity (dev)](https://img.shields.io/github/commit-activity/w/gjwgit/mlflutter/dev)](https://github.com/gjwgit/rattle/commits/dev/)
 
-The Flutter App of the MLHub.
+# ML Flutter &mdash; Simplifying Access AI/ML Models
+
+MLFlutter aims to be a simplified gateway to provide access to
+artificial intelligence and machine learning models based on the
+MLHub framework.
 
 ## Installation
 
