@@ -1,0 +1,48 @@
+name: mlflutter
+description: "A Flutter app for the Machine Learning Hub."
+publish_to: 'none'
+
+version: 0.1.0+6
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cross_file:        ^0.3.4   # Work with files across multiple platforms.
+  desktop_drop:      ^0.4.4   # Drag and drop file functionality.
+  dropdown_search:   ^5.0.6   # Choose the input audio language option.
+  file_picker:       ^8.0.0+1 # Choose a file from local storage.
+  flutter_riverpod:  ^2.5.1   # Keep track of the commands to write on the log page.
+  intl:              ^0.19.0  # Format timestamps.
+  markdown_tooltip:  ^0.0.2   # Allow tool tips to be formatted.
+  mime:              ^1.0.5   # Detect the input file type.
+  package_info_plus: ^8.1.1   # Query the version number of the app.
+  path:              ^1.9.0   # Cross-platform path manipulation
+  window_manager:    ^0.4.3   # Fix the size of the desktop app window.
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  custom_lint: ^0.6.4
+  dependency_validator: ^4.1.1
+  flutter_lints: ^4.0.0
+  riverpod_generator: ^2.3.5
+
+  # The original `dart-code-metrics` is end of live and has migrated to
+  # a paid service. This fork maintains it's compatibility with the
+  # latest flutter.
+
+  dart_code_metrics:
+    git:
+      url: https://github.com/anusii/dart-code-metrics.git
+      ref: master
+
+dependency_overrides:
+  collection: ^1.19.0 # Required for dart-code-metrics.
+
+flutter:
+  uses-material-design: true
