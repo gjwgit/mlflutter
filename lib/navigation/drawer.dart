@@ -81,8 +81,15 @@ class AppNavigationDrawer extends StatelessWidget {
           ),
         ],
       ),
+      ExpansionTile(
+        leading: const Icon(Icons.health_and_safety),
+        title: const Text('Health'),
+        children: [
+          _drawerItem(context, Icons.chat, 'Chat', 7, indent: 30.0),
+        ],
+      ),
       // Index 4 is used for logButton
-      // Add more items as needed, next index to use: 7
+      // Add more items as needed, next index to use: 8
     ];
   }
 

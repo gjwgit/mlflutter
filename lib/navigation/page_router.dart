@@ -32,6 +32,7 @@ import 'package:mlflutter/features/language/translate.dart';
 import 'package:mlflutter/features/log.dart';
 import 'package:mlflutter/features/vision/car.dart';
 import 'package:mlflutter/features/vision/colorization.dart';
+import 'package:mlflutter/features/health/chat.dart';
 
 class PageRouter {
   static Widget getPage(int selectedIndex) {
@@ -50,6 +51,8 @@ class PageRouter {
         return Identify();
       case 6:
         return const CarIdentification();
+      case 7:
+        return HealthChat();
       default:
         return Intro();
     }
