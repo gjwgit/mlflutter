@@ -13,9 +13,9 @@ class _HealthChatState extends State<HealthChat> {
 
   // Define the widget for each subpage
   final List<Widget> _pages = [
+    const ChatPage(),
     DirectoryBrowserScreen(),
     const Center(child: Text('Subpage 2')),
-    const ChatPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -36,16 +36,16 @@ class _HealthChatState extends State<HealthChat> {
         unselectedItemColor: Colors.grey, // Color for unselected tabs
         items: const [
           BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.folder_open),
             label: 'Browse Files',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.looks_two),
             label: 'Subpage 2',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
           ),
         ],
       ),

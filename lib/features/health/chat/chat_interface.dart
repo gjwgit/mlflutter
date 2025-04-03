@@ -10,6 +10,8 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
   final List<Map<String, String>> _messages = [];
 
   // List of random replies for the AI
@@ -21,6 +23,19 @@ class _ChatPageState extends State<ChatPage> {
     "Hmm, that's something to think about."
   ];
 
+  // Function to scroll to the bottom of the ListView
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   // Function to send a message and then reply randomly
   void _sendMessage() {
     final text = _controller.text.trim();
@@ -31,6 +46,8 @@ class _ChatPageState extends State<ChatPage> {
       _messages.add({"sender": "user", "text": text});
     });
     _controller.clear();
+    _focusNode.requestFocus();
+    _scrollToBottom();
 
     // Simulate a delay before replying
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -38,12 +55,16 @@ class _ChatPageState extends State<ChatPage> {
       setState(() {
         _messages.add({"sender": "ai", "text": reply});
       });
+      // Scroll down after adding AI's reply
+      _scrollToBottom();
     });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
   
@@ -54,6 +75,7 @@ class _ChatPageState extends State<ChatPage> {
         // Chat messages
         Expanded(
           child: ListView.builder(
+            controller: _scrollController,
             itemCount: _messages.length,
             itemBuilder: (context, index) {
               final message = _messages[index];
@@ -83,6 +105,7 @@ class _ChatPageState extends State<ChatPage> {
               Expanded(
                 child: TextField(
                   controller: _controller,
+                  focusNode: _focusNode,
                   decoration: const InputDecoration.collapsed(
                     hintText: "Type your message..."
                   ),

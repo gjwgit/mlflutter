@@ -43,8 +43,8 @@ class Home extends ConsumerWidget {
         useMaterial3: true,
       ),
       home: SolidLogin(
-          image: AssetImage('assets/images/demopod_image.png'),
-          logo: AssetImage('assets/images/demopod_logo.png'),
+          image: AssetImage('assets/images/solid_login_image.png'),
+          logo: AssetImage('assets/images/solid_login_logo.png'),
           child: const MLHubMainPage()),
     );
   }
