@@ -29,6 +29,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mlflutter/mlhub.dart';
 
+import 'package:solidpod/solidpod.dart';
+
 class Home extends ConsumerWidget {
   const Home({super.key});
 
@@ -40,7 +42,10 @@ class Home extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MLHubMainPage(),
+      home: SolidLogin(
+          image: AssetImage('assets/images/demopod_image.png'),
+          logo: AssetImage('assets/images/demopod_logo.png'),
+          child: const MLHubMainPage()),
     );
   }
 }
