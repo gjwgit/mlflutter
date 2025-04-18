@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mlflutter/features/health/chat/chat_interface.dart';
 import 'package:mlflutter/features/health/chat/file_browser.dart';
+import 'package:mlflutter/features/health/chat/file/service/page.dart';
 import 'package:mlflutter/features/health/chat/file_browser2.dart';
 
 class HealthChat extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HealthChatState extends State<HealthChat> {
   final List<Widget> _pages = [
     const ChatPage(),
     DirectoryBrowserScreen(),
-    const Center(child: Text('Subpage 2')),
+    const FileService(),
   ];
 
   void _onItemTapped(int index) {
