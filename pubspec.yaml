@@ -30,6 +30,9 @@ dependencies:
       ref: dev
   path_provider: ^2.0.11
   open_file: ^3.2.1
+  pdf: ^3.11.3
+  printing: ^5.14.2
+  syncfusion_flutter_pdf: ^29.1.38
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +54,9 @@ dev_dependencies:
 
 dependency_overrides:
   collection: ^1.19.0 # Required for dart-code-metrics.
-
+  flutter_secure_storage_linux: ^2.0.1
+  flutter_secure_storage_platform_interface: ^2.0.0
+  
 flutter:
   uses-material-design: true
 
