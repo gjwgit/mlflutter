@@ -87,18 +87,18 @@ class FileListItem extends StatelessWidget {
   });
 
   Future<void> openFileFromBytes(Uint8List bytes, String filename) async {
-  // Get temp directory
-  final tempDir = await getTemporaryDirectory();
+    // Get temp directory
+    final tempDir = await getTemporaryDirectory();
 
-  // Create a file in the temp directory
-  final file = File('${tempDir.path}/$filename');
+    // Create a file in the temp directory
+    final file = File('${tempDir.path}/$filename');
 
-  // Write bytes to the file
-  await file.writeAsBytes(bytes);
+    // Write bytes to the file
+    await file.writeAsBytes(bytes);
 
-  // Open the file
-  await OpenFile.open(file.path);
-}
+    // Open the file
+    await OpenFile.open(file.path);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,23 +252,18 @@ class FileListItem extends StatelessWidget {
                         size: 20,
                         color: Theme.of(context).colorScheme.primary,
                       ),
+                      tooltip: 'Open file',
                       onPressed: () async {
+                        final String fileContent = await readPod(
+                            '$currentPath/${file.name}', context, Container());
 
-                          final String fileContent = await readPod(
-                              '$currentPath/${file.name}',
-                              context,
-                              Container());
+                        final fileBytes = base64Decode(fileContent);
 
+                        if (!context.mounted) return;
 
-                          final fileBytes = base64Decode(fileContent);
-
-                          if (!context.mounted) return;
-
-
-                          await openFileFromBytes(fileBytes, file.name.replaceAll(RegExp(r'\.enc\.ttl$'), ''));
-                        },
-
-
+                        await openFileFromBytes(fileBytes,
+                            file.name.replaceAll(RegExp(r'\.enc\.ttl$'), ''));
+                      },
                       style: IconButton.styleFrom(
                         backgroundColor:
                             Theme.of(context).colorScheme.primary.withAlpha(10),
@@ -285,6 +280,7 @@ class FileListItem extends StatelessWidget {
                         size: 20,
                         color: Theme.of(context).colorScheme.primary,
                       ),
+                      tooltip: 'Download file',
                       onPressed: () => onFileDownload(file.name, currentPath),
                       style: IconButton.styleFrom(
                         backgroundColor:
@@ -303,6 +299,7 @@ class FileListItem extends StatelessWidget {
                         size: 20,
                         color: Theme.of(context).colorScheme.error,
                       ),
+                      tooltip: 'Delete file',
                       onPressed: () => onFileDelete(file.name, currentPath),
                       style: IconButton.styleFrom(
                         backgroundColor:
