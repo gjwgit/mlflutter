@@ -34,6 +34,10 @@ import 'package:printing/printing.dart';
 import 'package:solidpod/solidpod.dart';
 
 import 'package:mlflutter/features/health/chat/file/browser/models/file_item.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
 /// A widget that displays a single file item with its metadata and actions.
 ///
@@ -81,6 +85,20 @@ class FileListItem extends StatelessWidget {
     required this.onFileDownload,
     required this.onFileDelete,
   });
+
+  Future<void> openFileFromBytes(Uint8List bytes, String filename) async {
+  // Get temp directory
+  final tempDir = await getTemporaryDirectory();
+
+  // Create a file in the temp directory
+  final file = File('${tempDir.path}/$filename');
+
+  // Write bytes to the file
+  await file.writeAsBytes(bytes);
+
+  // Open the file
+  await OpenFile.open(file.path);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -226,6 +244,39 @@ class FileListItem extends StatelessWidget {
                     if (file.name.toLowerCase().contains('.pdf.enc.ttl'))
                       const SizedBox(width: 10),
                     // Download button.
+
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(
+                        Icons.open_in_new,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: () async {
+
+                          final String fileContent = await readPod(
+                              '$currentPath/${file.name}',
+                              context,
+                              Container());
+
+
+                          final fileBytes = base64Decode(fileContent);
+
+                          if (!context.mounted) return;
+
+
+                          await openFileFromBytes(fileBytes, file.name.replaceAll(RegExp(r'\.enc\.ttl$'), ''));
+                        },
+
+
+                      style: IconButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primary.withAlpha(10),
+                        padding: EdgeInsets.zero,
+                        minimumSize: const Size(35, 35),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
 
                     IconButton(
                       visualDensity: VisualDensity.compact,
