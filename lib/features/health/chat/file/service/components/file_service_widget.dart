@@ -26,7 +26,6 @@
 library;
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 
@@ -35,6 +34,7 @@ import 'package:mlflutter/features/health/chat/file/browser/page.dart';
 import 'package:mlflutter/features/health/chat/file/service/components/file_upload_section.dart';
 import 'package:mlflutter/features/health/chat/file/service/providers/file_service_provider.dart';
 import 'package:mlflutter/features/health/chat/providers/tab_state.dart';
+
 
 /// The main file service widget that provides file upload, download, and preview functionality.
 ///
@@ -59,8 +59,7 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
         selectedIndex == 0 ? Feature.bloodPressure : Feature.vaccination;
     // final path =
     //     'mlflutter/data/${feature.displayName.toLowerCase().replaceAll(' ', '_')}';
-    final path =
-        'mlflutter/data/';
+    final path = 'mlflutter/data/';
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(fileServiceProvider.notifier).updateCurrentPath(path);
@@ -135,6 +134,12 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                                   ..setDownloadFile(filePath)
                                   ..setFilePreview(fileName)
                                   ..setRemoteFileName(path.basename(fileName));
+                              },
+                              onFileOpen: (fileName, filePath) async {
+                                ref.read(fileServiceProvider.notifier)
+                                  ..setDownloadFile(filePath)
+                                  ..setRemoteFileName(path.basename(fileName))
+                                  ..handleOpen(context);
                               },
                               onFileDownload: (fileName, filePath) async {
                                 ref.read(fileServiceProvider.notifier)
@@ -226,6 +231,12 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                                 ..setDownloadFile(filePath)
                                 ..setRemoteFileName(path.basename(fileName))
                                 ..handleDownload(context);
+                            },
+                            onFileOpen: (fileName, filePath) async {
+                              ref.read(fileServiceProvider.notifier)
+                                ..setDownloadFile(filePath)
+                                ..setRemoteFileName(path.basename(fileName))
+                                ..handleOpen(context);
                             },
                             onFileDelete: (fileName, filePath) async {
                               // Show confirmation dialog before deleting.

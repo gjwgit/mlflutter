@@ -26,18 +26,14 @@
 library;
 
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-
-import 'package:pdf/pdf.dart';
-import 'package:printing/printing.dart';
-import 'package:solidpod/solidpod.dart';
-
 import 'package:mlflutter/features/health/chat/file/browser/models/file_item.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'dart:typed_data';
+import 'package:solidpod/solidpod.dart';
 
 /// A widget that displays a single file item with its metadata and actions.
 ///
@@ -76,6 +72,10 @@ class FileListItem extends StatelessWidget {
 
   final Function(String, String) onFileDelete;
 
+  /// Callback when the file is opened.
+
+  final Function(String, String) onFileOpen;
+
   const FileListItem({
     super.key,
     required this.file,
@@ -84,6 +84,7 @@ class FileListItem extends StatelessWidget {
     required this.onFileSelected,
     required this.onFileDownload,
     required this.onFileDelete,
+    required this.onFileOpen,
   });
 
   Future<void> openFileFromBytes(Uint8List bytes, String filename) async {
@@ -191,17 +192,7 @@ class FileListItem extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       tooltip: 'Open file',
-                      onPressed: () async {
-                        final String fileContent = await readPod(
-                            '$currentPath/${file.name}', context, Container());
-
-                        final fileBytes = base64Decode(fileContent);
-
-                        if (!context.mounted) return;
-
-                        await openFileFromBytes(fileBytes,
-                            file.name.replaceAll(RegExp(r'\.enc\.ttl$'), ''));
-                      },
+                      onPressed: () => onFileOpen(file.name, currentPath),
                       style: IconButton.styleFrom(
                         backgroundColor:
                             Theme.of(context).colorScheme.primary.withAlpha(10),

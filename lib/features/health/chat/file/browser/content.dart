@@ -78,6 +78,10 @@ class FileBrowserContent extends StatelessWidget {
 
   final Function(String, String) onFileDelete;
 
+  /// Callback when a file is opened.
+
+  final Function(String, String) onFileOpen;
+
   const FileBrowserContent({
     super.key,
     required this.directories,
@@ -89,6 +93,7 @@ class FileBrowserContent extends StatelessWidget {
     required this.onFileSelected,
     required this.onFileDownload,
     required this.onFileDelete,
+    required this.onFileOpen,
   });
 
   @override
@@ -122,6 +127,7 @@ class FileBrowserContent extends StatelessWidget {
           onFileSelected: onFileSelected,
           onFileDownload: onFileDownload,
           onFileDelete: onFileDelete,
+          onFileOpen: onFileOpen,
         ),
       ],
     );

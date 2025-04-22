@@ -34,11 +34,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:solidpod/solidpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 import 'package:mlflutter/features/health/chat/constants/feature.dart';
 import 'package:mlflutter/features/health/chat/constants/paths.dart';
 import 'package:mlflutter/features/health/chat/file/service/models/file_state.dart';
-
 
 /// A provider that manages the business logic for file operations.
 ///
@@ -272,6 +273,80 @@ class FileServiceNotifier extends StateNotifier<FileState> {
     );
   }
 
+  /// Handles the opening and decryption of files from the POD.
+
+  Future<void> handleOpen(BuildContext context) async {
+    if (state.remoteFileName == null || state.currentPath == null) return;
+
+    try {
+      state = state.copyWith(
+        downloadInProgress: true,
+        downloadDone: false,
+      );
+
+      final baseDir = basePath;
+      final relativePath = state.currentPath == baseDir
+          ? '$baseDir/${state.remoteFileName}'
+          : '${state.currentPath}/${state.remoteFileName}';
+
+      // debugPrint('Attempting to download from path: $relativePath');
+
+      if (!context.mounted) return;
+
+      await getKeyFromUserIfRequired(
+        context,
+        const Text('Please enter your security key to download the file'),
+      );
+
+      if (!context.mounted) return;
+
+      final fileContent = await readPod(
+        relativePath,
+        context,
+        const Text('Downloading'),
+      );
+
+      if (!context.mounted) return;
+
+      if (fileContent == SolidFunctionCallStatus.fail.toString() ||
+          fileContent == SolidFunctionCallStatus.notLoggedIn.toString()) {
+        throw Exception(
+            'Download failed - please check your connection and permissions');
+      }
+
+      // Save to temp directory
+      final tempDir = await getTemporaryDirectory();
+      final tempFilePath =
+          '${tempDir.path}/${state.remoteFileName?.replaceAll('.enc.ttl', '')}';
+
+      await saveDecryptedContent(fileContent, tempFilePath);
+
+      state = state.copyWith(
+        downloadDone: true,
+        downloadInProgress: false,
+      );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File downloaded successfully'),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
+          ),
+        );
+      }
+
+      // Open the file
+      final result = await OpenFile.open(tempFilePath);
+      debugPrint('Open file result: ${result.message}');
+    } catch (e) {
+      if (context.mounted) {
+        showAlert(context, 'Download error: ${e.toString()}');
+        debugPrint('Download error: $e');
+      }
+      state = state.copyWith(downloadInProgress: false);
+    }
+  }
+
   /// Handles file deletion from the POD.
 
   Future<void> handleDelete(BuildContext context) async {
@@ -451,7 +526,7 @@ class FileServiceNotifier extends StateNotifier<FileState> {
       if (outputFile != null) {
         if (!context.mounted) return;
 
-        bool success =true;
+        bool success = true;
 
         // if (isVaccination) {
         //   success = await VaccinationExporter.exportCsv(
@@ -604,7 +679,6 @@ Future<void> saveDecryptedContent(
   }
 }
 
-
 void showAlert(BuildContext context, String message) {
   if (context.mounted) {
     alert(context, message);
@@ -632,7 +706,6 @@ Future<void> alert(
     ),
   );
 }
-
 
 final textFileExtensions = [
   '.txt',

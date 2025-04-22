@@ -61,6 +61,10 @@ class FileBrowser extends StatefulWidget {
 
   final Function(String, String) onFileDelete;
 
+  /// Callback when a file is opened.
+
+  final Function(String, String) onFileOpen;
+
   /// Callback when the current directory changes.
 
   final Function(String) onDirectoryChanged;
@@ -78,6 +82,7 @@ class FileBrowser extends StatefulWidget {
     required this.onFileSelected,
     required this.onFileDownload,
     required this.onFileDelete,
+    required this.onFileOpen,
     required this.browserKey,
     required this.onImportCsv,
     required this.onDirectoryChanged,
@@ -275,6 +280,7 @@ class FileBrowserState extends State<FileBrowser> {
                           },
                           onFileDownload: widget.onFileDownload,
                           onFileDelete: widget.onFileDelete,
+                          onFileOpen: widget.onFileOpen,
                         ),
             ),
           ],

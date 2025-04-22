@@ -66,6 +66,10 @@ class FileList extends StatelessWidget {
 
   final Function(String, String) onFileDelete;
 
+  /// Callback when a file is opened.
+
+  final Function(String, String) onFileOpen;
+
   const FileList({
     super.key,
     required this.files,
@@ -74,6 +78,7 @@ class FileList extends StatelessWidget {
     required this.onFileSelected,
     required this.onFileDownload,
     required this.onFileDelete,
+    required this.onFileOpen,
   });
 
   @override
@@ -104,14 +109,17 @@ class FileList extends StatelessWidget {
 
         // List of file items.
 
-        ...files.map((file) => FileListItem(
-              file: file,
-              currentPath: currentPath,
-              isSelected: selectedFile == file.name,
-              onFileSelected: onFileSelected,
-              onFileDownload: onFileDownload,
-              onFileDelete: onFileDelete,
-            )),
+        ...files.map(
+          (file) => FileListItem(
+            file: file,
+            currentPath: currentPath,
+            isSelected: selectedFile == file.name,
+            onFileSelected: onFileSelected,
+            onFileDownload: onFileDownload,
+            onFileDelete: onFileDelete,
+            onFileOpen: onFileOpen,
+          ),
+        ),
       ],
     );
   }
