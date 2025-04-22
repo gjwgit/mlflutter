@@ -25,15 +25,9 @@
 
 library;
 
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+
 import 'package:mlflutter/features/health/chat/file/browser/models/file_item.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:solidpod/solidpod.dart';
 
 /// A widget that displays a single file item with its metadata and actions.
 ///
@@ -87,18 +81,31 @@ class FileListItem extends StatelessWidget {
     required this.onFileOpen,
   });
 
-  Future<void> openFileFromBytes(Uint8List bytes, String filename) async {
-    // Get temp directory
-    final tempDir = await getTemporaryDirectory();
+  IconData getFileIconData(String fileName) {
+    final ext = fileName.split('.').last.toLowerCase();
 
-    // Create a file in the temp directory
-    final file = File('${tempDir.path}/$filename');
-
-    // Write bytes to the file
-    await file.writeAsBytes(bytes);
-
-    // Open the file
-    await OpenFile.open(file.path);
+    switch (ext) {
+      case 'pdf':
+        return Icons.picture_as_pdf;
+      case 'doc':
+      case 'docx':
+        return Icons.description;
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return Icons.image;
+      case 'xls':
+      case 'xlsx':
+        return Icons.table_chart;
+      case 'ppt':
+      case 'pptx':
+        return Icons.slideshow;
+      case 'mp4':
+      case 'avi':
+        return Icons.movie;
+      default:
+        return Icons.insert_drive_file;
+    }
   }
 
   @override
@@ -140,7 +147,7 @@ class FileListItem extends StatelessWidget {
 
                   if (constraints.maxWidth > 40)
                     Icon(
-                      Icons.insert_drive_file,
+                      getFileIconData(file.name.replaceAll('.enc.ttl', '')),
                       color: Theme.of(context).colorScheme.secondary,
                       size: 20,
                     ),
