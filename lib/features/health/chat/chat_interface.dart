@@ -18,21 +18,27 @@ class ChatNotifier extends StateNotifier<List<Map<String, String>>> {
     "Hmm, that's something to think about.",
   ];
 
-  void sendMessage(String text) {
-    // 1️⃣ add user message
+  Future<void> sendMessage(String text) async {
+    // add user message
     state = [
       ...state,
       {'sender': 'user', 'text': text},
     ];
+    // add placeholder for AI typing
+    state = [
+      ...state,
+      {'sender': 'ai', 'text': ''}, // empty text == loading
+    ];
 
-    // 2️⃣ simulate AI reply after delay
-    Future.delayed(const Duration(milliseconds: 500), () {
-      final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
-      state = [
-        ...state,
-        {'sender': 'ai', 'text': reply},
-      ];
-    });
+    // simulate AI reply after delay
+    await Future.delayed(const Duration(milliseconds: 5000));
+    final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
+
+    // remove placeholder & append real reply
+    final newState = List<Map<String, String>>.from(state);
+    newState.removeLast();
+    newState.add({'sender': 'ai', 'text': reply});
+    state = newState;
   }
 }
 
@@ -62,18 +68,31 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // Listen for new messages to auto-scroll
+    ref.listen<List<Map<String, String>>>(
+      chatProvider,
+      (previous, next) {
+        if (previous == null || next.length > previous.length) {
+          _scrollToBottom();
+        }
+      },
+    );
+  }
+
   void _onSend() {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
-    // Notify the provider
+    // Notify the provider (async)
     ref.read(chatProvider.notifier).sendMessage(text);
 
     // clear & refocus
     _controller.clear();
     _focusNode.requestFocus();
-
-    // then scroll
+    // initial scroll to show placeholder
     _scrollToBottom();
   }
 
@@ -99,6 +118,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             itemBuilder: (context, i) {
               final msg = messages[i];
               final isUser = msg['sender'] == 'user';
+              final isLoading = !isUser && msg['text']!.isEmpty;
+
               return Align(
                 alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
@@ -110,7 +131,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                         : Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(msg['text']!),
+                  // show typing indicator if loading
+                  child: isLoading
+                      ? const TypingIndicator()
+                      : Text(msg['text']!),
                 ),
               );
             },
@@ -139,6 +163,75 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// A simple three-dot typing indicator.
+class TypingIndicator extends StatefulWidget {
+  const TypingIndicator({Key? key}) : super(key: key);
+
+  @override
+  State<TypingIndicator> createState() => _TypingIndicatorState();
+}
+
+class _TypingIndicatorState extends State<TypingIndicator>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _dotOne;
+  late final Animation<double> _dotTwo;
+  late final Animation<double> _dotThree;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat();
+
+    _dotOne = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.7, curve: Curves.easeInOut),
+    );
+    _dotTwo = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.1, 0.8, curve: Curves.easeInOut),
+    );
+    _dotThree = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.2, 0.9, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _buildDot(Animation<double> animation) {
+    return FadeTransition(
+      opacity: animation,
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2),
+        child: CircleAvatar(
+          radius: 4,
+          backgroundColor: Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildDot(_dotOne),
+        _buildDot(_dotTwo),
+        _buildDot(_dotThree),
       ],
     );
   }
