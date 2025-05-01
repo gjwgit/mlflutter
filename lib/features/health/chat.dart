@@ -14,7 +14,7 @@ class _HealthChatState extends State<HealthChat> {
 
   // Define the widget for each subpage
   final List<Widget> _pages = [
-    const ChatPage(),
+    ChatPage(),
     DirectoryBrowserScreen(),
     const FileService(),
   ];

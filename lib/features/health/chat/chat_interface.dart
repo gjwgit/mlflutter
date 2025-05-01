@@ -1,29 +1,55 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+// 1) Define a provider for your chat state
+final chatProvider = StateNotifierProvider<ChatNotifier, List<Map<String, String>>>(
+  (ref) => ChatNotifier(),
+);
 
-  @override
-  _ChatPageState createState() => _ChatPageState();
-}
+class ChatNotifier extends StateNotifier<List<Map<String, String>>> {
+  ChatNotifier() : super([]);
 
-class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-  final ScrollController _scrollController = ScrollController();
-  final List<Map<String, String>> _messages = [];
-
-  // List of random replies for the AI
-  final List<String> _randomReplies = [
+  static const _randomReplies = [
     "That's interesting!",
     "I see!",
     "Can you tell me more?",
     "Oh really?",
-    "Hmm, that's something to think about."
+    "Hmm, that's something to think about.",
   ];
 
-  // Function to scroll to the bottom of the ListView
+  void sendMessage(String text) {
+    // 1️⃣ add user message
+    state = [
+      ...state,
+      {'sender': 'user', 'text': text},
+    ];
+
+    // 2️⃣ simulate AI reply after delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
+      state = [
+        ...state,
+        {'sender': 'ai', 'text': reply},
+      ];
+    });
+  }
+}
+
+// 2) Convert ChatPage to a ConsumerStatefulWidget
+class ChatPage extends ConsumerStatefulWidget {
+  const ChatPage({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends ConsumerState<ChatPage> {
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+
+  // Scroll to bottom helper
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -36,28 +62,19 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  // Function to send a message and then reply randomly
-  void _sendMessage() {
+  void _onSend() {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
-    setState(() {
-      // Add the user's message
-      _messages.add({"sender": "user", "text": text});
-    });
+    // Notify the provider
+    ref.read(chatProvider.notifier).sendMessage(text);
+
+    // clear & refocus
     _controller.clear();
     _focusNode.requestFocus();
-    _scrollToBottom();
 
-    // Simulate a delay before replying
-    Future.delayed(const Duration(milliseconds: 500), () {
-      final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
-      setState(() {
-        _messages.add({"sender": "ai", "text": reply});
-      });
-      // Scroll down after adding AI's reply
-      _scrollToBottom();
-    });
+    // then scroll
+    _scrollToBottom();
   }
 
   @override
@@ -67,36 +84,39 @@ class _ChatPageState extends State<ChatPage> {
     _scrollController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
+    // Watch the current list of messages
+    final messages = ref.watch(chatProvider);
+
     return Column(
       children: [
-        // Chat messages
         Expanded(
           child: ListView.builder(
             controller: _scrollController,
-            itemCount: _messages.length,
-            itemBuilder: (context, index) {
-              final message = _messages[index];
-              final isUser = message["sender"] == "user";
+            itemCount: messages.length,
+            itemBuilder: (context, i) {
+              final msg = messages[i];
+              final isUser = msg['sender'] == 'user';
               return Align(
                 alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: isUser ? Colors.blue.shade100 : Colors.grey.shade300,
+                    color: isUser
+                        ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                        : Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(message["text"] ?? ''),
+                  child: Text(msg['text']!),
                 ),
               );
             },
           ),
         ),
         const Divider(height: 1),
-        // Input field and send button
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           color: Colors.white,
@@ -107,14 +127,14 @@ class _ChatPageState extends State<ChatPage> {
                   controller: _controller,
                   focusNode: _focusNode,
                   decoration: const InputDecoration.collapsed(
-                    hintText: "Type your message..."
+                    hintText: "Type your message...",
                   ),
-                  onSubmitted: (value) => _sendMessage(),
+                  onSubmitted: (_) => _onSend(),
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.send),
-                onPressed: _sendMessage,
+                onPressed: _onSend,
               ),
             ],
           ),
