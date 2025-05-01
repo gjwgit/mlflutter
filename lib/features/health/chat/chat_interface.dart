@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,8 +45,29 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
     ];
 
     // simulate AI reply delay
-    await Future.delayed(const Duration(seconds: 2));
-    final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
+    // await Future.delayed(const Duration(seconds: 2));
+    // final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
+
+    // run mlhub
+    ProcessResult result;
+    try {
+      final command = 'ml query health_rag \'"$text"\'';
+
+      final envName = 'mlhub';
+      final bashCommand = '''
+  source "\$HOME/miniconda3/etc/profile.d/conda.sh"  && conda activate $envName  && $command
+''';
+      result = await Process.run(
+        '/bin/bash',
+        ['-c', bashCommand],
+        runInShell: true,
+      );
+    } catch (e) {
+      result = ProcessResult(0, 1, '', 'Failed to start process: $e');
+    }
+    final output = result.stdout.toString().trim();
+    final error = result.stderr.toString().trim();
+    final reply = output.isNotEmpty ? output : error;
 
     // replace loading placeholder with real reply
     final newState = List<ChatMessage>.from(state);
