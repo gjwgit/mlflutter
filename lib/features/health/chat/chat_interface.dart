@@ -83,15 +83,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
-    // Listen for new messages to auto-scroll
-    // ref.listen<List<Map<String, String>>>(
-    //   chatProvider,
-    //   (previous, next) {
-    //     if (previous == null || next.length > previous.length) {
-    //       _scrollToBottom();
-    //     }
-    //   },
-    // );
   }
 
   void _onSend() {
