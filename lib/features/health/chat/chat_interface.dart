@@ -2,12 +2,25 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// 1) Define a provider for your chat state
-final chatProvider = StateNotifierProvider<ChatNotifier, List<Map<String, String>>>(
+// A message model with loading flag
+enum Sender { user, ai }
+
+class ChatMessage {
+  final Sender sender;
+  final String text;
+  final bool isLoading;
+  ChatMessage({
+    required this.sender,
+    required this.text,
+    this.isLoading = false,
+  });
+}
+
+final chatProvider = StateNotifierProvider<ChatNotifier, List<ChatMessage>>(
   (ref) => ChatNotifier(),
 );
 
-class ChatNotifier extends StateNotifier<List<Map<String, String>>> {
+class ChatNotifier extends StateNotifier<List<ChatMessage>> {
   ChatNotifier() : super([]);
 
   static const _randomReplies = [
@@ -22,27 +35,26 @@ class ChatNotifier extends StateNotifier<List<Map<String, String>>> {
     // add user message
     state = [
       ...state,
-      {'sender': 'user', 'text': text},
+      ChatMessage(sender: Sender.user, text: text),
     ];
-    // add placeholder for AI typing
+    // add AI-loading message
     state = [
       ...state,
-      {'sender': 'ai', 'text': ''}, // empty text == loading
+      ChatMessage(sender: Sender.ai, text: '', isLoading: true),
     ];
 
-    // simulate AI reply after delay
-    await Future.delayed(const Duration(milliseconds: 5000));
+    // simulate AI reply delay
+    await Future.delayed(const Duration(seconds: 2));
     final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
 
-    // remove placeholder & append real reply
-    final newState = List<Map<String, String>>.from(state);
+    // replace loading placeholder with real reply
+    final newState = List<ChatMessage>.from(state);
     newState.removeLast();
-    newState.add({'sender': 'ai', 'text': reply});
+    newState.add(ChatMessage(sender: Sender.ai, text: reply));
     state = newState;
   }
 }
 
-// 2) Convert ChatPage to a ConsumerStatefulWidget
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
 
@@ -72,14 +84,14 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   void initState() {
     super.initState();
     // Listen for new messages to auto-scroll
-    ref.listen<List<Map<String, String>>>(
-      chatProvider,
-      (previous, next) {
-        if (previous == null || next.length > previous.length) {
-          _scrollToBottom();
-        }
-      },
-    );
+    // ref.listen<List<Map<String, String>>>(
+    //   chatProvider,
+    //   (previous, next) {
+    //     if (previous == null || next.length > previous.length) {
+    //       _scrollToBottom();
+    //     }
+    //   },
+    // );
   }
 
   void _onSend() {
@@ -107,7 +119,14 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   Widget build(BuildContext context) {
     // Watch the current list of messages
-    final messages = ref.watch(chatProvider);
+    final List<ChatMessage> messages = ref.watch(chatProvider);
+    final bool aiIsLoading = messages.isNotEmpty && messages.last.isLoading;
+
+    ref.listen<List<ChatMessage>>(chatProvider, (previous, next) {
+      if (previous == null || next.length > previous.length) {
+        _scrollToBottom();
+      }
+    });
 
     return Column(
       children: [
@@ -117,13 +136,14 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             itemCount: messages.length,
             itemBuilder: (context, i) {
               final msg = messages[i];
-              final isUser = msg['sender'] == 'user';
-              final isLoading = !isUser && msg['text']!.isEmpty;
+              final isUser = msg.sender == Sender.user;
 
               return Align(
-                alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                alignment:
+                    isUser ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: isUser
@@ -131,10 +151,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                         : Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  // show typing indicator if loading
-                  child: isLoading
-                      ? const TypingIndicator()
-                      : Text(msg['text']!),
+                  child:
+                      msg.isLoading ? const TypingIndicator() : Text(msg.text),
                 ),
               );
             },
@@ -153,12 +171,12 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                   decoration: const InputDecoration.collapsed(
                     hintText: "Type your message...",
                   ),
-                  onSubmitted: (_) => _onSend(),
+                  onSubmitted: aiIsLoading ? null : (_) => _onSend(),
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.send),
-                onPressed: _onSend,
+                onPressed: aiIsLoading ? null : _onSend,
               ),
             ],
           ),
