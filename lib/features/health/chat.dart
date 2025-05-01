@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mlflutter/features/health/chat/chat_interface.dart';
-import 'package:mlflutter/features/health/chat/file_browser.dart';
 import 'package:mlflutter/features/health/chat/file/service/page.dart';
-import 'package:mlflutter/features/health/chat/file_browser2.dart';
 
 class HealthChat extends StatefulWidget {
   @override
@@ -14,8 +12,7 @@ class _HealthChatState extends State<HealthChat> {
 
   // Define the widget for each subpage
   final List<Widget> _pages = [
-    ChatPage(),
-    DirectoryBrowserScreen(),
+    const ChatPage(),
     const FileService(),
   ];
 
@@ -30,26 +27,41 @@ class _HealthChatState extends State<HealthChat> {
     return Scaffold(
       appBar: AppBar(title: const Text('Health Chat')),
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.blue, // Highlight color for the selected tab
-        unselectedItemColor: Colors.grey, // Color for unselected tabs
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
+  bottomNavigationBar: Container(
+    // match the BottomNavigationBar’s default height
+    // height: kBottomNavigationBarHeight,
+    child: Stack(
+      children: [
+        BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.folder_open),
+              label: 'Browse Files',
+            ),
+          ],
+        ),
+
+        // vertical divider in the middle
+        Positioned(
+          left: MediaQuery.of(context).size.width / 2 - 0.5, 
+          top: 8,    // adjust to control vertical padding
+          bottom: 8, // adjust to control vertical padding
+          child: Container(
+            width: 1,
+            color: Colors.grey.shade400,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.folder_open),
-            label: 'Browse Files',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.looks_two),
-            label: 'Subpage 2',
-          ),
-        ],
-      ),
+        ),
+      ],
+    ),
+  ),
     );
   }
 }
