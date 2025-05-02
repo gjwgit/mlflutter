@@ -33,6 +33,7 @@ dependencies:
   pdf: ^3.11.3
   printing: ^5.14.2
   syncfusion_flutter_pdf: ^29.1.38
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

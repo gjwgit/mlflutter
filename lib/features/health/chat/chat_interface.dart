@@ -55,7 +55,7 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
 
       final envName = 'mlhub';
       final bashCommand = '''
-  source "\$HOME/miniconda3/etc/profile.d/conda.sh"  && conda activate $envName  && $command
+ $command
 ''';
       result = await Process.run(
         '/bin/bash',
@@ -178,13 +178,22 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           child: Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  decoration: const InputDecoration.collapsed(
-                    hintText: "Type your message...",
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 150,
                   ),
-                  onSubmitted: aiIsLoading ? null : (_) => _onSend(),
+                  child: TextField(
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                    minLines: 1,
+                    maxLines: 5,
+                    decoration: const InputDecoration.collapsed(
+                      hintText: 'Type your message…',
+                    ),
+                    onSubmitted: aiIsLoading ? null : (_) => _onSend(),
+                  ),
                 ),
               ),
               IconButton(
