@@ -50,6 +50,8 @@ class FileBrowserContent extends StatelessWidget {
 
   final List<FileItem> files;
 
+  final List<String> selectedFiles;
+
   /// Map of directory names to their file counts.
 
   final Map<String, int> directoryCounts;
@@ -86,6 +88,7 @@ class FileBrowserContent extends StatelessWidget {
     super.key,
     required this.directories,
     required this.files,
+    required this.selectedFiles,
     required this.directoryCounts,
     required this.currentPath,
     required this.selectedFile,
@@ -98,6 +101,7 @@ class FileBrowserContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('in file browser content $selectedFiles');
     return ListView(
       children: [
         // Display directory list at the top.
@@ -122,6 +126,7 @@ class FileBrowserContent extends StatelessWidget {
 
         FileList(
           files: files,
+          selectedFiles: selectedFiles,
           currentPath: currentPath,
           selectedFile: selectedFile,
           onFileSelected: onFileSelected,

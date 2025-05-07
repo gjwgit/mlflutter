@@ -107,6 +107,10 @@ class FileBrowserState extends State<FileBrowser> {
 
   List<FileItem> files = [];
 
+  /// List of selected files.
+
+  List<String> selectedFiles = [];
+
   /// List of subdirectories in the current directory.
 
   List<String> directories = [];
@@ -238,6 +242,7 @@ class FileBrowserState extends State<FileBrowser> {
 
   @override
   Widget build(BuildContext context) {
+    print('inside browser state: $selectedFiles');
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -270,12 +275,18 @@ class FileBrowserState extends State<FileBrowser> {
                       : FileBrowserContent(
                           directories: directories,
                           files: files,
+                          selectedFiles: selectedFiles ?? [],
                           directoryCounts: directoryCounts,
                           currentPath: currentPath,
                           selectedFile: selectedFile,
                           onDirectorySelected: navigateToDirectory,
+                          // onFileSelected: widget.onFileSelected,
                           onFileSelected: (name, path) {
-                            setState(() => selectedFile = name);
+                            setState(() {
+                              selectedFiles = selectedFiles.contains(name)
+                                  ? selectedFiles.where((f) => f != name).toList()
+                                  : [...selectedFiles, name];
+                            });
                             widget.onFileSelected.call(name, path);
                           },
                           onFileDownload: widget.onFileDownload,

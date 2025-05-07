@@ -46,6 +46,8 @@ class FileList extends StatelessWidget {
 
   final List<FileItem> files;
 
+  final List<String> selectedFiles;
+
   /// The current directory path.
 
   final String currentPath;
@@ -73,6 +75,7 @@ class FileList extends StatelessWidget {
   const FileList({
     super.key,
     required this.files,
+    required this.selectedFiles,
     required this.currentPath,
     required this.selectedFile,
     required this.onFileSelected,
@@ -83,6 +86,7 @@ class FileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Selected files: $selectedFiles');
     // Return empty widget if no files to display.
 
     if (files.isEmpty) return const SizedBox.shrink();
@@ -113,7 +117,7 @@ class FileList extends StatelessWidget {
           (file) => FileListItem(
             file: file,
             currentPath: currentPath,
-            isSelected: selectedFile == file.name,
+            isSelected: selectedFiles.contains(file.name),
             onFileSelected: onFileSelected,
             onFileDownload: onFileDownload,
             onFileDelete: onFileDelete,

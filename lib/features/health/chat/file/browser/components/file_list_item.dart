@@ -73,6 +73,7 @@ class FileListItem extends StatelessWidget {
   const FileListItem({
     super.key,
     required this.file,
+
     required this.currentPath,
     required this.isSelected,
     required this.onFileSelected,
@@ -130,8 +131,26 @@ class FileListItem extends StatelessWidget {
                     ? Theme.of(context)
                         .colorScheme
                         .primaryContainer
-                        .withAlpha(10)
+                        .withAlpha(30)
                     : null,
+                border: isSelected
+                    ? Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 1.5,
+                      )
+                    : null,
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.15),
+                          blurRadius: 6,
+                          offset: Offset(0, 2),
+                        ),
+                      ]
+                    : [],
                 borderRadius: BorderRadius.circular(8),
               ),
               // Adjust horizontal padding based on available width.
@@ -143,6 +162,10 @@ class FileListItem extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Checkbox(
+                    value: isSelected,
+                    onChanged: (_) => onFileSelected(file.name, currentPath),
+                  ),
                   // Show file icon only if width permits.
 
                   if (constraints.maxWidth > 40)
@@ -166,7 +189,13 @@ class FileListItem extends StatelessWidget {
 
                         Text(
                           file.name,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                            fontWeight:
+                                isSelected ? FontWeight.bold : FontWeight.w500,
+                            color: isSelected
+                                ? Theme.of(context).colorScheme.primary
+                                : null,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                         // Show modification date if width permits.

@@ -133,7 +133,8 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                                 ref.read(fileServiceProvider.notifier)
                                   ..setDownloadFile(filePath)
                                   ..setFilePreview(fileName)
-                                  ..setRemoteFileName(path.basename(fileName));
+                                  ..setRemoteFileName(path.basename(fileName))
+                                  ..setSelectedFile(fileName);
                               },
                               onFileOpen: (fileName, filePath) async {
                                 ref.read(fileServiceProvider.notifier)
@@ -224,7 +225,8 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                               ref.read(fileServiceProvider.notifier)
                                 ..setDownloadFile(filePath)
                                 ..setFilePreview(fileName)
-                                ..setRemoteFileName(path.basename(fileName));
+                                ..setRemoteFileName(path.basename(fileName))
+                                ..setSelectedFile(fileName);
                             },
                             onFileDownload: (fileName, filePath) async {
                               ref.read(fileServiceProvider.notifier)

@@ -26,6 +26,7 @@
 library;
 
 import 'package:mlflutter/features/health/chat/constants/paths.dart';
+import 'package:mlflutter/features/health/chat/file/browser/models/file_item.dart';
 
 /// A model class to manage the state of file operations in the file service.
 ///
@@ -37,6 +38,8 @@ class FileState {
   /// The currently selected file for upload.
 
   String? uploadFile;
+
+  List<String>? selectedFiles;
 
   /// The currently selected file for download.
 
@@ -78,6 +81,7 @@ class FileState {
 
   FileState({
     this.uploadFile,
+    this.selectedFiles,
     this.downloadFile,
     this.remoteFileName = 'remoteFileName',
     this.cleanFileName = 'remoteFileName',
@@ -99,6 +103,7 @@ class FileState {
 
   FileState copyWith({
     String? uploadFile,
+    List<String>? selectedFiles,
     String? downloadFile,
     String? remoteFileName,
     String? cleanFileName,
@@ -117,6 +122,7 @@ class FileState {
   }) {
     return FileState(
       uploadFile: uploadFile ?? this.uploadFile,
+      selectedFiles: selectedFiles ?? this.selectedFiles,
       downloadFile: downloadFile ?? this.downloadFile,
       remoteFileName: remoteFileName ?? this.remoteFileName,
       cleanFileName: cleanFileName ?? this.cleanFileName,

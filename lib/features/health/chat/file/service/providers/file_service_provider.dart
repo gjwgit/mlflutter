@@ -258,6 +258,19 @@ class FileServiceNotifier extends StateNotifier<FileState> {
     state = state.copyWith(downloadFile: file);
   }
 
+  /// Toggles the selection state of a file.
+  void setSelectedFile(String file) {
+    final currentSelected = state.selectedFiles ?? [];
+
+    final isAlreadySelected = currentSelected.contains(file);
+
+    final updatedSelectedFiles = isAlreadySelected
+        ? currentSelected.where((f) => f != file).toList()
+        : [...currentSelected, file];
+
+    state = state.copyWith(selectedFiles: updatedSelectedFiles);
+  }
+
   /// Updates the file preview content.
 
   void setFilePreview(String preview) {
