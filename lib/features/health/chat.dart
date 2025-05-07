@@ -34,9 +34,13 @@ class _HealthChatState extends State<HealthChat> {
       barrierDismissible: false,
       builder: (_) => AlertDialog(
         title: const Text('Disclaimer'),
-        content: const Text(
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: const Text(
             'This chat is for informational purposes only and does not constitute professional medical advice. '
-            'Please consult a qualified healthcare provider for professional guidance.'),
+            'Please consult a qualified healthcare provider for professional guidance.',
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
