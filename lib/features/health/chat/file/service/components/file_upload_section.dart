@@ -506,6 +506,8 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
         state.currentPath?.contains('profile') ?? false;
     final showCsvButtons = isInBpDirectory || isInVaccinationDirectory;
     final showProfileImportButton = isInProfileDirectory;
+    final anyFilesSelected = state.selectedFiles?.isNotEmpty ?? false;
+    final isButtonEnabled = !state.uploadInProgress && anyFilesSelected;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -602,7 +604,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                         },
                   icon: Icon(Icons.file_upload,
                       color: Theme.of(context).colorScheme.onPrimaryContainer),
-                  label: const Text('Upload'),
+                  label: const Text('Upload File to POD'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor:
@@ -729,37 +731,96 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
         ),
 
         const SizedBox(height: 12),
-        MarkdownTooltip(
-          message: '''
 
-          **Visualize JSON**: Tap here to select and visualize a JSON file from your local machine.
+        Row(
+          children: [
+            // Main upload button.
 
-          ''',
-          child: TextButton.icon(
-            onPressed: state.uploadInProgress
-                ? null
-                : () async {
-                    final result = await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['json'],
-                    );
-                    if (result != null && result.files.isNotEmpty) {
-                      final file = result.files.first;
-                      if (file.path != null) {
-                        await handlePreview(file.path!);
-                      }
-                    }
-                  },
-            icon: const Icon(Icons.analytics),
-            label: const Text('Visualize JSON'),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+            Expanded(
+              child: MarkdownTooltip(
+                message: '''
+
+        **Embed**: Tap here to select a file and generate its context embeddings.
+
+        ''',
+                child: ElevatedButton.icon(
+                  onPressed: isButtonEnabled
+                      ? () async {
+                          final result = await FilePicker.platform.pickFiles();
+                          if (result != null && result.files.isNotEmpty) {
+                            final file = result.files.first;
+                            if (file.path != null) {
+                              if (file.extension?.toLowerCase() == 'pdf') {
+                                await convertPDFToJsonUpload(File(file.path!));
+                              } else {
+                                ref
+                                    .read(fileServiceProvider.notifier)
+                                    .setUploadFile(file.path);
+                                await handlePreview(file.path!);
+                                if (!context.mounted) return;
+                                await ref
+                                    .read(fileServiceProvider.notifier)
+                                    .handleUpload(context);
+                              }
+                            }
+                          }
+                        }
+                      : null,
+                  icon: Icon(Icons.memory,
+                      color: isButtonEnabled
+                          ? Theme.of(context).colorScheme.onPrimaryContainer
+                          : Theme.of(context).disabledColor),
+                  label: const Text('Embed Context'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: isButtonEnabled
+                        ? Theme.of(context).colorScheme.primaryContainer
+                        : Theme.of(context).disabledColor.withOpacity(0.12),
+                    foregroundColor: isButtonEnabled
+                        ? Theme.of(context).colorScheme.onPrimaryContainer
+                        : Theme.of(context).disabledColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
+
+        // const SizedBox(height: 12),
+        // MarkdownTooltip(
+        //   message: '''
+
+        //   **Visualize JSON**: Tap here to select and visualize a JSON file from your local machine.
+
+        //   ''',
+        //   child: TextButton.icon(
+        //     onPressed: state.uploadInProgress
+        //         ? null
+        //         : () async {
+        //             final result = await FilePicker.platform.pickFiles(
+        //               type: FileType.custom,
+        //               allowedExtensions: ['json'],
+        //             );
+        //             if (result != null && result.files.isNotEmpty) {
+        //               final file = result.files.first;
+        //               if (file.path != null) {
+        //                 await handlePreview(file.path!);
+        //               }
+        //             }
+        //           },
+        //     icon: const Icon(Icons.analytics),
+        //     label: const Text('Visualize JSON'),
+        //     style: TextButton.styleFrom(
+        //       padding: const EdgeInsets.symmetric(vertical: 12),
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(8),
+        //       ),
+        //     ),
+        //   ),
+        // ),
 
         // Preview button.
 
