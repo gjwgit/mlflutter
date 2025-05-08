@@ -42,10 +42,11 @@ class Home extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SolidLogin(
-          image: AssetImage('assets/images/solid_login_image.png'),
-          logo: AssetImage('assets/images/solid_login_logo.png'),
-          child: const MLHubMainPage()),
+      // home: SolidLogin(
+      //     image: AssetImage('assets/images/solid_login_image.png'),
+      //     logo: AssetImage('assets/images/solid_login_logo.png'),
+      //     child: const MLHubMainPage()),
+      home: MLHubMainPage()
     );
   }
 }

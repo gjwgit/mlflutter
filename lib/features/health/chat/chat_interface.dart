@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // A message model with loading flag
@@ -55,7 +56,7 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
 
       final envName = 'mlhub';
       final bashCommand = '''
- $command
+ source "\$HOME/miniconda3/etc/profile.d/conda.sh"  && conda activate $envName  && $command
 ''';
       result = await Process.run(
         '/bin/bash',
@@ -87,6 +88,7 @@ class ChatPage extends ConsumerStatefulWidget {
 class _ChatPageState extends ConsumerState<ChatPage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _detectorNode = FocusNode(canRequestFocus: false);
   final ScrollController _scrollController = ScrollController();
 
   // Scroll to bottom helper
@@ -172,37 +174,51 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           ),
         ),
         const Divider(height: 1),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          color: Colors.white,
-          child: Row(
-            children: [
-              Expanded(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 150,
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    keyboardType: TextInputType.multiline,
-                    textInputAction: TextInputAction.newline,
-                    minLines: 1,
-                    maxLines: 5,
-                    decoration: const InputDecoration.collapsed(
-                      hintText: 'Type your message…',
-                    ),
-                    onSubmitted: aiIsLoading ? null : (_) => _onSend(),
-                  ),
-                ),
+        Focus(
+  focusNode: _focusNode,
+  onKeyEvent: (FocusNode node, KeyEvent event) {
+    // Only handle key-down Enter events
+    if (event.logicalKey == LogicalKeyboardKey.enter && event is KeyDownEvent) {
+      if (HardwareKeyboard.instance.isShiftPressed) {
+        return KeyEventResult.ignored;
+      } else {
+        // Enter → send message
+        if (!aiIsLoading) _onSend();
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
+  },
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    color: Colors.white,
+    child: Row(
+      children: [
+        Expanded(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 150),
+            child: TextField(
+              // focusNode: _focusNode,
+              controller: _controller,
+              keyboardType: TextInputType.multiline,
+              // you can still allow up to 5 lines if you like:
+              minLines: 1,
+              maxLines: 5,
+              decoration: const InputDecoration.collapsed(
+                hintText: 'Type your message…',
               ),
-              IconButton(
-                icon: const Icon(Icons.send),
-                onPressed: aiIsLoading ? null : _onSend,
-              ),
-            ],
+            ),
           ),
         ),
+        IconButton(
+          icon: const Icon(Icons.send),
+          onPressed: aiIsLoading ? null : _onSend,
+        ),
+      ],
+    ),
+  ),
+),
+
       ],
     );
   }
