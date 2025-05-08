@@ -16,6 +16,17 @@ class _HealthChatState extends State<HealthChat> {
     const FileService(),
   ];
 
+  String _getPageSubheading(int index) {
+    switch (index) {
+      case 0:
+        return 'Chat with AI';
+      case 1:
+        return 'Browse your health files';
+      default:
+        return '';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,21 +69,28 @@ class _HealthChatState extends State<HealthChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true, // if you want it centered
-        title: Row(
+        centerTitle: true,
+        title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Health Chat'),
-            const SizedBox(width: 8),
-            IconButton(
-              padding: EdgeInsets.zero,
-              icon: const Icon(Icons.info_outline, size: 20),
-              onPressed: _showDisclaimer,
-              tooltip: 'Disclaimer',
+            const Text(
+              'Health Chat',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              _getPageSubheading(_selectedIndex),
+              style:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             ),
           ],
         ),
-        // you can then drop your actions list if you don't need any extra icons over on the right.
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: _showDisclaimer,
+            tooltip: 'Disclaimer',
+          ),
+        ],
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
