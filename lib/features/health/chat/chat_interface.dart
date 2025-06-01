@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 
 // A message model with loading flag
 enum Sender { user, ai }
@@ -33,7 +34,7 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
     "Hmm, that's something to think about.",
   ];
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, bool context) async {
     // add user message
     state = [
       ...state,
@@ -52,11 +53,17 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
     // run mlhub
     ProcessResult result;
     try {
-      final command = 'ml query health_rag \'"$text"\'';
+      var cmd_context = '';
+      if (context){
+        cmd_context = '--vectorstore-path /tmp/mlflutter/data/vector_store';
+      }
+
+      
+      final command = 'ml query health_rag \'"$text"\' $cmd_context';
 
       final envName = 'mlhub';
       final bashCommand = '''
- source "\$HOME/miniconda3/etc/profile.d/conda.sh"  && conda activate $envName  && $command
+ source "/home/arjun/myenv/bin/activate"  && $command
 ''';
       result = await Process.run(
         '/bin/bash',
@@ -90,6 +97,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   final FocusNode _focusNode = FocusNode();
   final FocusNode _detectorNode = FocusNode(canRequestFocus: false);
   final ScrollController _scrollController = ScrollController();
+  bool _contextEnabled = true;
+  bool _contextAvailable = false;
 
   // Scroll to bottom helper
   void _scrollToBottom() {
@@ -107,6 +116,19 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
+    _checkContextAvailability();
+  }
+
+  Future<void> _checkContextAvailability() async {
+    final dir = await getTemporaryDirectory();
+    final contextDir = Directory('${dir.path}/mlflutter/data/vector_store');
+    final exists = await contextDir.exists();
+    final hasFiles = exists && contextDir.listSync().isNotEmpty;
+
+    setState(() {
+      _contextAvailable = hasFiles;
+      _contextEnabled = hasFiles; // Optionally default to ON only if available
+    });
   }
 
   void _onSend() {
@@ -114,7 +136,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     if (text.isEmpty) return;
 
     // Notify the provider (async)
-    ref.read(chatProvider.notifier).sendMessage(text);
+    ref.read(chatProvider.notifier).sendMessage(text, _contextEnabled);
 
     // clear & refocus
     _controller.clear();
@@ -175,50 +197,91 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         ),
         const Divider(height: 1),
         Focus(
-  focusNode: _focusNode,
-  onKeyEvent: (FocusNode node, KeyEvent event) {
-    // Only handle key-down Enter events
-    if (event.logicalKey == LogicalKeyboardKey.enter && event is KeyDownEvent) {
-      if (HardwareKeyboard.instance.isShiftPressed) {
-        return KeyEventResult.ignored;
-      } else {
-        // Enter → send message
-        if (!aiIsLoading) _onSend();
-        return KeyEventResult.handled;
-      }
-    }
-    return KeyEventResult.ignored;
-  },
-  child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8),
-    color: Colors.white,
-    child: Row(
-      children: [
-        Expanded(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 150),
-            child: TextField(
-              // focusNode: _focusNode,
-              controller: _controller,
-              keyboardType: TextInputType.multiline,
-              // you can still allow up to 5 lines if you like:
-              minLines: 1,
-              maxLines: 5,
-              decoration: const InputDecoration.collapsed(
-                hintText: 'Type your message…',
-              ),
+          focusNode: _focusNode,
+          onKeyEvent: (FocusNode node, KeyEvent event) {
+            // Only handle key-down Enter events
+            if (event.logicalKey == LogicalKeyboardKey.enter &&
+                event is KeyDownEvent) {
+              if (HardwareKeyboard.instance.isShiftPressed) {
+                return KeyEventResult.ignored;
+              } else {
+                // Enter → send message
+                if (!aiIsLoading) _onSend();
+                return KeyEventResult.handled;
+              }
+            }
+            return KeyEventResult.ignored;
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            color: Colors.white,
+            child: Row(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Tooltip(
+                      message: _contextAvailable
+                          ? 'Toggle context usage'
+                          : 'Context data not available. Download vector store from `Browse Files` page.',
+                      child: OutlinedButton.icon(
+                        icon: Icon(
+                          _contextEnabled ? Icons.check_circle : Icons.cancel,
+                          color: _contextEnabled ? Colors.green : Colors.grey,
+                        ),
+                        label: Text(
+                          _contextEnabled ? 'Context: ON' : 'Context: OFF',
+                          style: TextStyle(
+                            color: _contextEnabled ? Colors.green : Colors.grey,
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: _contextEnabled ? Colors.green : Colors.grey,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                        ),
+                        onPressed: _contextAvailable
+                            ? () {
+                                setState(() {
+                                  _contextEnabled = !_contextEnabled;
+                                });
+                              }
+                            : null, // disables interaction
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 150),
+                    child: TextField(
+                      // focusNode: _focusNode,
+                      controller: _controller,
+                      keyboardType: TextInputType.multiline,
+                      // you can still allow up to 5 lines if you like:
+                      minLines: 1,
+                      maxLines: 5,
+                      decoration: const InputDecoration.collapsed(
+                        hintText: 'Type your message…',
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: aiIsLoading ? null : _onSend,
+                ),
+              ],
             ),
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.send),
-          onPressed: aiIsLoading ? null : _onSend,
-        ),
-      ],
-    ),
-  ),
-),
-
       ],
     );
   }

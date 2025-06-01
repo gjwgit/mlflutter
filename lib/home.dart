@@ -38,15 +38,16 @@ class Home extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'MLFlutter',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: SolidLogin(
-      //     image: AssetImage('assets/images/solid_login_image.png'),
-      //     logo: AssetImage('assets/images/solid_login_logo.png'),
-      //     child: const MLHubMainPage()),
-      home: MLHubMainPage()
+      home: SolidLogin(
+          image: AssetImage('assets/images/solid_login_image.png'),
+          logo: AssetImage('assets/images/solid_login_logo.png'),
+          child: const MLHubMainPage()),
+      // home: MLHubMainPage()
     );
   }
 }
