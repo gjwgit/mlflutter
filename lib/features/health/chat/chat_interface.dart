@@ -46,10 +46,6 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
       ChatMessage(sender: Sender.ai, text: '', isLoading: true),
     ];
 
-    // simulate AI reply delay
-    // await Future.delayed(const Duration(seconds: 2));
-    // final reply = _randomReplies[Random().nextInt(_randomReplies.length)];
-
     // run mlhub
     ProcessResult result;
     try {
@@ -58,9 +54,8 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
         cmd_context = '--vectorstore-path /tmp/mlflutter/data/vector_store';
       }
 
-      final command = 'ml query health_rag \"$text"\ $cmd_context';
+      final command = 'ml query health_rag "$text" $cmd_context';
 
-      final envName = 'mlhub';
       final bashCommand = '''
  $command
 ''';
@@ -70,7 +65,7 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
         runInShell: true,
       );
     } catch (e) {
-      result = ProcessResult(0, 1, '', 'Failed to start process: $e');
+      result = ProcessResult(0, 1, '', 'Failed to start process: \$e');
     }
     final output = result.stdout.toString().trim();
     final error = result.stderr.toString().trim();
@@ -81,6 +76,11 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
     newState.removeLast();
     newState.add(ChatMessage(sender: Sender.ai, text: reply));
     state = newState;
+  }
+
+  /// Clears the entire conversation history
+  void clear() {
+    state = [];
   }
 }
 
@@ -120,7 +120,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   Future<void> _checkContextAvailability() async {
     final dir = await getTemporaryDirectory();
-    final contextDir = Directory('${dir.path}/mlflutter/data/vector_store');
+    final contextDir = Directory('\${dir.path}/mlflutter/data/vector_store');
     final exists = await contextDir.exists();
     final hasFiles = exists && contextDir.listSync().isNotEmpty;
 
@@ -164,147 +164,144 @@ class _ChatPageState extends ConsumerState<ChatPage> {
       }
     });
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: messages.length,
-            itemBuilder: (context, i) {
-              final msg = messages[i];
-              final isUser = msg.sender == Sender.user;
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: messages.length,
+              itemBuilder: (context, i) {
+                final msg = messages[i];
+                final isUser = msg.sender == Sender.user;
 
-              return Align(
-                alignment:
-                    isUser ? Alignment.centerRight : Alignment.centerLeft,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width *
-                        0.7,
-                  ),
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: isUser
-                          ? Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.1)
-                          : Colors.grey.shade300,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(16),
-                        topRight: const Radius.circular(16),
-                        bottomLeft: Radius.circular(isUser ? 16 : 0),
-                        bottomRight: Radius.circular(isUser ? 0 : 16),
-                      ),
-                    ),
-                    child: msg.isLoading
-                        ? const TypingIndicator()
-                        : Text(
-                            msg.text,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        const Divider(height: 1),
-        Focus(
-          focusNode: _focusNode,
-          onKeyEvent: (FocusNode node, KeyEvent event) {
-            // Only handle key-down Enter events
-            if (event.logicalKey == LogicalKeyboardKey.enter &&
-                event is KeyDownEvent) {
-              if (HardwareKeyboard.instance.isShiftPressed) {
-                return KeyEventResult.ignored;
-              } else {
-                // Enter → send message
-                if (!aiIsLoading) _onSend();
-                return KeyEventResult.handled;
-              }
-            }
-            return KeyEventResult.ignored;
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            color: Colors.white,
-            child: Row(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Tooltip(
-                      message: _contextAvailable
-                          ? 'Toggle context usage'
-                          : 'Context data not available. Download vector store from `Browse Files` page.',
-                      child: OutlinedButton.icon(
-                        icon: Icon(
-                          _contextEnabled ? Icons.check_circle : Icons.cancel,
-                          color: _contextEnabled ? Colors.green : Colors.grey,
-                        ),
-                        label: Text(
-                          _contextEnabled ? 'Context: ON' : 'Context: OFF',
-                          style: TextStyle(
-                            color: _contextEnabled ? Colors.green : Colors.grey,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color: _contextEnabled ? Colors.green : Colors.grey,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                        ),
-                        onPressed: _contextAvailable
-                            ? () {
-                                setState(() {
-                                  _contextEnabled = !_contextEnabled;
-                                });
-                              }
-                            : null, // disables interaction
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
+                return Align(
+                  alignment:
+                      isUser ? Alignment.centerRight : Alignment.centerLeft,
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 150),
-                    child: TextField(
-                      // focusNode: _focusNode,
-                      controller: _controller,
-                      keyboardType: TextInputType.multiline,
-                      // you can still allow up to 5 lines if you like:
-                      minLines: 1,
-                      maxLines: 5,
-                      decoration: const InputDecoration.collapsed(
-                        hintText: 'Type your message…',
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: isUser
+                            ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                            : Colors.grey.shade300,
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(16),
+                          topRight: const Radius.circular(16),
+                          bottomLeft: Radius.circular(isUser ? 16 : 0),
+                          bottomRight: Radius.circular(isUser ? 0 : 16),
+                        ),
                       ),
+                      child: msg.isLoading
+                          ? const TypingIndicator()
+                          : Text(
+                              msg.text,
+                              style: const TextStyle(fontSize: 16),
+                            ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: aiIsLoading ? null : _onSend,
-                ),
-              ],
+                );
+              },
             ),
           ),
-        ),
-      ],
+          const Divider(height: 1),
+          Focus(
+            focusNode: _focusNode,
+            onKeyEvent: (FocusNode node, KeyEvent event) {
+              if (event.logicalKey == LogicalKeyboardKey.enter &&
+                  event is KeyDownEvent) {
+                if (HardwareKeyboard.instance.isShiftPressed) {
+                  return KeyEventResult.ignored;
+                } else {
+                  if (!aiIsLoading) _onSend();
+                  return KeyEventResult.handled;
+                }
+              }
+              return KeyEventResult.ignored;
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              color: Colors.white,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    tooltip: 'Restart Conversation',
+                    onPressed: () {
+                      ref.read(chatProvider.notifier).clear();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Tooltip(
+                        message: _contextAvailable
+                            ? 'Toggle context usage'
+                            : 'Context data not available. Download vector store from `Browse Files` page.',
+                        child: OutlinedButton.icon(
+                          icon: Icon(
+                            _contextEnabled ? Icons.check_circle : Icons.cancel,
+                            color: _contextEnabled ? Colors.green : Colors.grey,
+                          ),
+                          label: Text(
+                            _contextEnabled ? 'Context: ON' : 'Context: OFF',
+                            style: TextStyle(
+                              color: _contextEnabled ? Colors.green : Colors.grey,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: _contextEnabled ? Colors.green : Colors.grey,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          ),
+                          onPressed: _contextAvailable
+                              ? () {
+                                  setState(() {
+                                    _contextEnabled = !_contextEnabled;
+                                  });
+                                }
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 150),
+                      child: TextField(
+                        controller: _controller,
+                        keyboardType: TextInputType.multiline,
+                        minLines: 1,
+                        maxLines: 5,
+                        decoration: const InputDecoration.collapsed(
+                          hintText: 'Type your message…',
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: aiIsLoading ? null : _onSend,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-/// A simple three-dot typing indicator.
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({Key? key}) : super(key: key);
 
