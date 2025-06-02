@@ -29,7 +29,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 
-import 'package:mlflutter/features/health/chat/constants/feature.dart';
 import 'package:mlflutter/features/health/chat/file/browser/page.dart';
 import 'package:mlflutter/features/health/chat/file/service/components/file_upload_section.dart';
 import 'package:mlflutter/features/health/chat/file/service/providers/file_service_provider.dart';
@@ -55,8 +54,8 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
 
   void _navigateToFeatureFolder() {
     final selectedIndex = ref.read(tabStateProvider).selectedIndex;
-    final feature =
-        selectedIndex == 0 ? Feature.bloodPressure : Feature.vaccination;
+    // final feature =
+    //     selectedIndex == 0 ? Feature.bloodPressure : Feature.vaccination;
     // final path =
     //     'mlflutter/data/${feature.displayName.toLowerCase().replaceAll(' ', '_')}';
     final path = 'mlflutter/data/';

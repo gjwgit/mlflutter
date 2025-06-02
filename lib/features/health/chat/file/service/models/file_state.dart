@@ -26,7 +26,6 @@
 library;
 
 import 'package:mlflutter/features/health/chat/constants/paths.dart';
-import 'package:mlflutter/features/health/chat/file/browser/models/file_item.dart';
 
 /// A model class to manage the state of file operations in the file service.
 ///
@@ -139,33 +138,5 @@ class FileState {
       deleteDone: deleteDone ?? this.deleteDone,
       showPreview: showPreview ?? this.showPreview,
     );
-  }
-
-  /// Checks if the current path is in the blood pressure directory.
-
-  bool get isInBpDirectory {
-    return currentPath != null &&
-        (currentPath!.endsWith('/blood_pressure') ||
-            currentPath!.contains('/blood_pressure/') ||
-            currentPath == '$basePath/blood_pressure');
-  }
-
-  /// Checks if the current path is in the vaccination directory.
-
-  bool get isInVaccinationDirectory {
-    return currentPath != null &&
-        (currentPath!.endsWith('/vaccination') ||
-            currentPath!.contains('/vaccination/') ||
-            currentPath == '$basePath/vaccination');
-  }
-
-  /// Checks if the current path is in the profile directory.
-
-  bool get isInProfileDirectory {
-    return currentPath != null &&
-        (currentPath!.endsWith('/profile') ||
-            currentPath!.contains('/profile/') ||
-            currentPath == '$basePath/profile' ||
-            currentPath == 'healthpod/profile');
   }
 }

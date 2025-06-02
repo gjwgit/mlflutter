@@ -84,7 +84,6 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
     state = newState;
   }
 
-  // function to clear the entire chat history.
   void clear() {
     state = [];
   }
