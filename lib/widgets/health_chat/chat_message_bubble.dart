@@ -55,7 +55,7 @@ class ChatMessageBubble extends StatelessWidget {
           decoration: BoxDecoration(
             // Set different background colors for user and AI messages
             color: isUser
-                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.9)
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
                 : Colors.grey.shade300,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16),
