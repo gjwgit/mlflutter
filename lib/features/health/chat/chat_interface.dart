@@ -54,16 +54,15 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
     ProcessResult result;
     try {
       var cmd_context = '';
-      if (context){
+      if (context) {
         cmd_context = '--vectorstore-path /tmp/mlflutter/data/vector_store';
       }
 
-      
-      final command = 'ml query health_rag \'"$text"\' $cmd_context';
+      final command = 'ml query health_rag \"$text"\ $cmd_context';
 
       final envName = 'mlhub';
       final bashCommand = '''
- source "/home/arjun/myenv/bin/activate"  && $command
+ $command
 ''';
       result = await Process.run(
         '/bin/bash',
@@ -178,18 +177,36 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               return Align(
                 alignment:
                     isUser ? Alignment.centerRight : Alignment.centerLeft,
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isUser
-                        ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                        : Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(8),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width *
+                        0.7,
                   ),
-                  child:
-                      msg.isLoading ? const TypingIndicator() : Text(msg.text),
+                  child: Container(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: isUser
+                          ? Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.1)
+                          : Colors.grey.shade300,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(16),
+                        topRight: const Radius.circular(16),
+                        bottomLeft: Radius.circular(isUser ? 16 : 0),
+                        bottomRight: Radius.circular(isUser ? 0 : 16),
+                      ),
+                    ),
+                    child: msg.isLoading
+                        ? const TypingIndicator()
+                        : Text(
+                            msg.text,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                  ),
                 ),
               );
             },
