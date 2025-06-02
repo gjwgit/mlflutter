@@ -77,13 +77,17 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
 
       for (final remotePath in remotePaths) {
         final fileName = remotePath.split('/').last.replaceAll('.enc.ttl', '');
-        final localPath = '${tempDir.path}/$fileName';
+        final localPath = '${tempDir.path}/mlflutter/$fileName';
+
+        print('mlflutter/data/' + remotePath);
 
         final fileContent = await readPod(
           'mlflutter/data/' + remotePath,
           context,
           Text('Downloading $fileName'),
         );
+
+        // debugPrint(SolidFunctionCallStatus.);
 
         if (fileContent == SolidFunctionCallStatus.fail.toString() ||
             fileContent == SolidFunctionCallStatus.notLoggedIn.toString()) {
@@ -990,38 +994,191 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
           ],
         ),
 
-        // const SizedBox(height: 12),
-        // MarkdownTooltip(
-        //   message: '''
+        const SizedBox(height: 12),
 
-        //   **Visualize JSON**: Tap here to select and visualize a JSON file from your local machine.
+        Row(
+          children: [
+            // Main upload button.
 
-        //   ''',
-        //   child: TextButton.icon(
-        //     onPressed: state.uploadInProgress
-        //         ? null
-        //         : () async {
-        //             final result = await FilePicker.platform.pickFiles(
-        //               type: FileType.custom,
-        //               allowedExtensions: ['json'],
-        //             );
-        //             if (result != null && result.files.isNotEmpty) {
-        //               final file = result.files.first;
-        //               if (file.path != null) {
-        //                 await handlePreview(file.path!);
-        //               }
-        //             }
-        //           },
-        //     icon: const Icon(Icons.analytics),
-        //     label: const Text('Visualize JSON'),
-        //     style: TextButton.styleFrom(
-        //       padding: const EdgeInsets.symmetric(vertical: 12),
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(8),
-        //       ),
-        //     ),
-        //   ),
-        // ),
+            Expanded(
+              child: MarkdownTooltip(
+                message: '''
+
+        **Download Context**: Tap here to download your health data context embeddings to use used in chat.
+
+        ''',
+                child: ElevatedButton.icon(
+                  onPressed: isButtonEnabled
+                      ? () async {
+                          List<String> selectedFiles =
+                              state.selectedFiles ?? [];
+
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              int step = 0;
+                              bool isConfirmed = false;
+                              bool isCancelled = false;
+                              String? errorMessage; // New: To hold error state
+
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  Future<void> runSteps() async {
+                                    try {
+                                      setState(() => step = 1);
+                                      List<String> downloadedFiles =
+                                          await performDownload(selectedFiles);
+                                      if (isCancelled) return;
+
+                                      setState(() => step = 2);
+                                      String embeddedResult =
+                                          await performEmbedding(
+                                              downloadedFiles);
+                                      if (isCancelled) return;
+
+                                      setState(() => step = 3);
+                                      await performUpload(embeddedResult);
+
+                                      if (isCancelled) return;
+
+                                      Navigator.of(context)
+                                          .pop(); // Done, close dialog
+                                    } catch (e) {
+                                      setState(() {
+                                        errorMessage =
+                                            "An error occurred at step $step: $e";
+                                      });
+                                    }
+                                  }
+
+                                  if (isConfirmed && step == 0) {
+                                    runSteps();
+                                  }
+
+                                  return AlertDialog(
+                                    title: Text("Download Context"),
+                                    content: isConfirmed
+                                        ? Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              if (errorMessage != null)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: Text(
+                                                    errorMessage!,
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  ),
+                                                ),
+                                              ListTile(
+                                                leading: step == 0
+                                                    ? Icon(
+                                                        Icons.download_outlined,
+                                                        color: Colors.grey)
+                                                    : step == 1
+                                                        ? CircularProgressIndicator()
+                                                        : Icon(Icons.check,
+                                                            color:
+                                                                Colors.green),
+                                                title: Text(
+                                                    "Downloading files..."),
+                                              ),
+                                              ListTile(
+                                                leading: step < 2
+                                                    ? Icon(
+                                                        Icons.memory_outlined,
+                                                        color: Colors.grey)
+                                                    : step == 2
+                                                        ? CircularProgressIndicator()
+                                                        : Icon(Icons.check,
+                                                            color:
+                                                                Colors.green),
+                                                title: Text(
+                                                    "Running embedding..."),
+                                              ),
+                                              ListTile(
+                                                leading: step < 3
+                                                    ? Icon(
+                                                        Icons.upload_outlined,
+                                                        color: Colors.grey)
+                                                    : step == 3
+                                                        ? CircularProgressIndicator()
+                                                        : Icon(Icons.check,
+                                                            color:
+                                                                Colors.green),
+                                                title: Text(
+                                                    "Uploading embedding..."),
+                                              ),
+                                            ],
+                                          )
+                                        : Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text("Selected Files:"),
+                                              ...selectedFiles.map(
+                                                (file) => ListTile(
+                                                  title: Text(file),
+                                                  leading: Icon(
+                                                      Icons.insert_drive_file),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                    actions: [
+                                      if (!isConfirmed)
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: Text("Cancel"),
+                                        ),
+                                      if (!isConfirmed)
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            setState(() => isConfirmed = true);
+                                          },
+                                          child: Text("Confirm"),
+                                        ),
+                                      if (isConfirmed && step < 3)
+                                        TextButton(
+                                          onPressed: () {
+                                            isCancelled = true;
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Cancel"),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        }
+                      : null,
+                  icon: Icon(Icons.download,
+                      color: isButtonEnabled
+                          ? Theme.of(context).colorScheme.onPrimaryContainer
+                          : Theme.of(context).disabledColor),
+                  label: const Text('Download Context'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: isButtonEnabled
+                        ? Theme.of(context).colorScheme.primaryContainer
+                        : Theme.of(context).disabledColor.withOpacity(0.12),
+                    foregroundColor: isButtonEnabled
+                        ? Theme.of(context).colorScheme.onPrimaryContainer
+                        : Theme.of(context).disabledColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
 
         // Preview button.
 

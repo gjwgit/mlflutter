@@ -1,6 +1,6 @@
 /// Navigation drawer for the MLFlutter app, providing access to different sections.
 ///
-/// Copyright (C) 2024 The Authors
+/// Copyright (C) 2025 The Authors
 ///
 /// Licensed under the GNU General Public License, Version 3 (the "License");
 ///
@@ -19,7 +19,7 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Ting Tang, Arjun Raj
 
 library;
 

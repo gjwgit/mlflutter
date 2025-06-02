@@ -1,4 +1,4 @@
-/// The Home widget, providing the main interface for the MLFlutter app.
+/// Model for a single chat message.
 ///
 /// Copyright (C) 2025 The Authors
 ///
@@ -19,35 +19,27 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang, Arjun Raj
-///
+/// Authors: Arjun Raj
 
 library;
 
-import 'package:flutter/material.dart';
+// Enum to represent the sender of a message.
+enum Sender { user, ai }
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mlflutter/mlhub.dart';
+class ChatMessage {
+  // The sender of the message, either a user or AI.
+  final Sender sender;
 
-import 'package:solidpod/solidpod.dart';
+  // The actual content of the message.
+  final String text;
 
-class Home extends ConsumerWidget {
-  const Home({super.key});
+  // A flag to indicate whether the message is loading.
+  // Mainly useful for asynchronous operations where the llm might be loading.
+  final bool isLoading;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      title: 'MLFlutter',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: SolidLogin(
-        required: false,
-        image: AssetImage('assets/images/solid_login_image.png'),
-        logo: AssetImage('assets/images/solid_login_logo.png'),
-        child: const MLHubMainPage(),
-      ),
-    );
-  }
+  ChatMessage({
+    required this.sender,
+    required this.text,
+    this.isLoading = false,
+  });
 }
