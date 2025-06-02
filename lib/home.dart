@@ -44,6 +44,7 @@ class Home extends ConsumerWidget {
         useMaterial3: true,
       ),
       home: SolidLogin(
+          required: false,
           image: AssetImage('assets/images/solid_login_image.png'),
           logo: AssetImage('assets/images/solid_login_logo.png'),
           child: const MLHubMainPage()),
