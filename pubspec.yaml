@@ -57,8 +57,8 @@ dependency_overrides:
   collection: ^1.19.0 # Required for dart-code-metrics.
   flutter_secure_storage_linux: ^2.0.1
   flutter_secure_storage_platform_interface: ^2.0.0
-  intl: ^0.19.0
-  
+  intl: ^0.19.0 # Required for solidpod -> form_builder_validators -> flutter_localizations
+
 flutter:
   uses-material-design: true
 
