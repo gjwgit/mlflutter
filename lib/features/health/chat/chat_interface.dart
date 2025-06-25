@@ -35,7 +35,7 @@ import 'package:mlflutter/widgets/health_chat/chat_input_field.dart';
 import 'package:mlflutter/constants/chat.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({super.key});
 
   @override
   ConsumerState<ChatPage> createState() => _ChatPageState();

@@ -1,6 +1,6 @@
 /// File upload section component for the file service feature.
 ///
-// Time-stamp: <Thursday 2025-04-17 10:02:42 +1000 Graham Williams>
+// Time-stamp: <Thursday 2025-06-26 08:10:18 +1000 Graham Williams>
 ///
 /// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
@@ -77,15 +77,11 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
         final fileName = remotePath.split('/').last.replaceAll('.enc.ttl', '');
         final localPath = '${tempDir.path}/mlflutter/$fileName';
 
-        print('mlflutter/data/' + remotePath);
-
         final fileContent = await readPod(
-          'mlflutter/data/' + remotePath,
+          'mlflutter/data/$remotePath',
           context,
           Text('Downloading $fileName'),
         );
-
-        // debugPrint(SolidFunctionCallStatus.);
 
         if (fileContent == SolidFunctionCallStatus.fail.toString() ||
             fileContent == SolidFunctionCallStatus.notLoggedIn.toString()) {
@@ -127,7 +123,6 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
   Future<void> performUpload(String embeddedData) async {
     await Future.delayed(Duration(seconds: 5));
     // Pretend this uploads the embedded data
-    print('Uploaded: $embeddedData');
   }
 
   /// Handles file preview before upload to display its content or basic info.
@@ -231,21 +226,17 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
     );
   }
 
- 
-
-
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(fileServiceProvider);
-    final isInBpDirectory =
-        state.currentPath?.contains('blood_pressure') ?? false;
-    final isInVaccinationDirectory =
-        state.currentPath?.contains('vaccination') ?? false;
-    final isInProfileDirectory =
-        state.currentPath?.contains('profile') ?? false;
-    final showCsvButtons = isInBpDirectory || isInVaccinationDirectory;
-    final showProfileImportButton = isInProfileDirectory;
+    // final isInBpDirectory =
+    //     state.currentPath?.contains('blood_pressure') ?? false;
+    // final isInVaccinationDirectory =
+    //     state.currentPath?.contains('vaccination') ?? false;
+    // final isInProfileDirectory =
+    //     state.currentPath?.contains('profile') ?? false;
+    // final showCsvButtons = isInBpDirectory || isInVaccinationDirectory;
+    // final showProfileImportButton = isInProfileDirectory;
     final anyFilesSelected = state.selectedFiles?.isNotEmpty ?? false;
     final isButtonEnabled = !state.uploadInProgress && anyFilesSelected;
 
@@ -342,8 +333,10 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                             }
                           }
                         },
-                  icon: Icon(Icons.file_upload,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer),
+                  icon: Icon(
+                    Icons.file_upload,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
                   label: const Text('Upload File to POD'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -401,7 +394,8 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                       setState(() => step = 2);
                                       String embeddedResult =
                                           await performEmbedding(
-                                              downloadedFiles);
+                                        downloadedFiles,
+                                      );
                                       if (isCancelled) return;
 
                                       setState(() => step = 3);
@@ -414,7 +408,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                     } catch (e) {
                                       setState(() {
                                         errorMessage =
-                                            "An error occurred at step $step: $e";
+                                            'An error occurred at step $step: $e';
                                       });
                                     }
                                   }
@@ -424,7 +418,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                   }
 
                                   return AlertDialog(
-                                    title: Text("Embed Context"),
+                                    title: Text('Embed Context'),
                                     content: isConfirmed
                                         ? Column(
                                             mainAxisSize: MainAxisSize.min,
@@ -433,63 +427,75 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          bottom: 8.0),
+                                                    bottom: 8.0,
+                                                  ),
                                                   child: Text(
                                                     errorMessage!,
                                                     style: TextStyle(
-                                                        color: Colors.red),
+                                                      color: Colors.red,
+                                                    ),
                                                   ),
                                                 ),
                                               ListTile(
                                                 leading: step == 0
                                                     ? Icon(
                                                         Icons.download_outlined,
-                                                        color: Colors.grey)
+                                                        color: Colors.grey,
+                                                      )
                                                     : step == 1
                                                         ? CircularProgressIndicator()
-                                                        : Icon(Icons.check,
-                                                            color:
-                                                                Colors.green),
+                                                        : Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
                                                 title: Text(
-                                                    "Downloading files..."),
+                                                  'Downloading files...',
+                                                ),
                                               ),
                                               ListTile(
                                                 leading: step < 2
                                                     ? Icon(
                                                         Icons.memory_outlined,
-                                                        color: Colors.grey)
+                                                        color: Colors.grey,
+                                                      )
                                                     : step == 2
                                                         ? CircularProgressIndicator()
-                                                        : Icon(Icons.check,
-                                                            color:
-                                                                Colors.green),
+                                                        : Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
                                                 title: Text(
-                                                    "Running embedding..."),
+                                                  'Running embedding...',
+                                                ),
                                               ),
                                               ListTile(
                                                 leading: step < 3
                                                     ? Icon(
                                                         Icons.upload_outlined,
-                                                        color: Colors.grey)
+                                                        color: Colors.grey,
+                                                      )
                                                     : step == 3
                                                         ? CircularProgressIndicator()
-                                                        : Icon(Icons.check,
-                                                            color:
-                                                                Colors.green),
+                                                        : Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
                                                 title: Text(
-                                                    "Uploading embedding..."),
+                                                  'Uploading embedding...',
+                                                ),
                                               ),
                                             ],
                                           )
                                         : Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text("Selected Files:"),
+                                              Text('Selected Files:'),
                                               ...selectedFiles.map(
                                                 (file) => ListTile(
                                                   title: Text(file),
                                                   leading: Icon(
-                                                      Icons.insert_drive_file),
+                                                    Icons.insert_drive_file,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -499,14 +505,14 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.of(context).pop(),
-                                          child: Text("Cancel"),
+                                          child: Text('Cancel'),
                                         ),
                                       if (!isConfirmed)
                                         ElevatedButton(
                                           onPressed: () {
                                             setState(() => isConfirmed = true);
                                           },
-                                          child: Text("Confirm"),
+                                          child: Text('Confirm'),
                                         ),
                                       if (isConfirmed && step < 3)
                                         TextButton(
@@ -514,7 +520,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                             isCancelled = true;
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Cancel"),
+                                          child: Text('Cancel'),
                                         ),
                                     ],
                                   );
@@ -524,16 +530,20 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                           );
                         }
                       : null,
-                  icon: Icon(Icons.memory,
-                      color: isButtonEnabled
-                          ? Theme.of(context).colorScheme.onPrimaryContainer
-                          : Theme.of(context).disabledColor),
+                  icon: Icon(
+                    Icons.memory,
+                    color: isButtonEnabled
+                        ? Theme.of(context).colorScheme.onPrimaryContainer
+                        : Theme.of(context).disabledColor,
+                  ),
                   label: const Text('Embed Context'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: isButtonEnabled
                         ? Theme.of(context).colorScheme.primaryContainer
-                        : Theme.of(context).disabledColor.withOpacity(0.12),
+                        : Theme.of(context)
+                            .disabledColor
+                            .withValues(alpha: 0.12),
                     foregroundColor: isButtonEnabled
                         ? Theme.of(context).colorScheme.onPrimaryContainer
                         : Theme.of(context).disabledColor,
@@ -587,7 +597,8 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                       setState(() => step = 2);
                                       String embeddedResult =
                                           await performEmbedding(
-                                              downloadedFiles);
+                                        downloadedFiles,
+                                      );
                                       if (isCancelled) return;
 
                                       setState(() => step = 3);
@@ -600,7 +611,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                     } catch (e) {
                                       setState(() {
                                         errorMessage =
-                                            "An error occurred at step $step: $e";
+                                            'An error occurred at step $step: $e';
                                       });
                                     }
                                   }
@@ -610,7 +621,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                   }
 
                                   return AlertDialog(
-                                    title: Text("Download Context"),
+                                    title: Text('Download Context'),
                                     content: isConfirmed
                                         ? Column(
                                             mainAxisSize: MainAxisSize.min,
@@ -619,63 +630,75 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          bottom: 8.0),
+                                                    bottom: 8.0,
+                                                  ),
                                                   child: Text(
                                                     errorMessage!,
                                                     style: TextStyle(
-                                                        color: Colors.red),
+                                                      color: Colors.red,
+                                                    ),
                                                   ),
                                                 ),
                                               ListTile(
                                                 leading: step == 0
                                                     ? Icon(
                                                         Icons.download_outlined,
-                                                        color: Colors.grey)
+                                                        color: Colors.grey,
+                                                      )
                                                     : step == 1
                                                         ? CircularProgressIndicator()
-                                                        : Icon(Icons.check,
-                                                            color:
-                                                                Colors.green),
+                                                        : Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
                                                 title: Text(
-                                                    "Downloading files..."),
+                                                  'Downloading files...',
+                                                ),
                                               ),
                                               ListTile(
                                                 leading: step < 2
                                                     ? Icon(
                                                         Icons.memory_outlined,
-                                                        color: Colors.grey)
+                                                        color: Colors.grey,
+                                                      )
                                                     : step == 2
                                                         ? CircularProgressIndicator()
-                                                        : Icon(Icons.check,
-                                                            color:
-                                                                Colors.green),
+                                                        : Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
                                                 title: Text(
-                                                    "Running embedding..."),
+                                                  'Running embedding...',
+                                                ),
                                               ),
                                               ListTile(
                                                 leading: step < 3
                                                     ? Icon(
                                                         Icons.upload_outlined,
-                                                        color: Colors.grey)
+                                                        color: Colors.grey,
+                                                      )
                                                     : step == 3
                                                         ? CircularProgressIndicator()
-                                                        : Icon(Icons.check,
-                                                            color:
-                                                                Colors.green),
+                                                        : Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
                                                 title: Text(
-                                                    "Uploading embedding..."),
+                                                  'Uploading embedding...',
+                                                ),
                                               ),
                                             ],
                                           )
                                         : Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text("Selected Files:"),
+                                              Text('Selected Files:'),
                                               ...selectedFiles.map(
                                                 (file) => ListTile(
                                                   title: Text(file),
                                                   leading: Icon(
-                                                      Icons.insert_drive_file),
+                                                    Icons.insert_drive_file,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -685,14 +708,14 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.of(context).pop(),
-                                          child: Text("Cancel"),
+                                          child: Text('Cancel'),
                                         ),
                                       if (!isConfirmed)
                                         ElevatedButton(
                                           onPressed: () {
                                             setState(() => isConfirmed = true);
                                           },
-                                          child: Text("Confirm"),
+                                          child: Text('Confirm'),
                                         ),
                                       if (isConfirmed && step < 3)
                                         TextButton(
@@ -700,7 +723,7 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                                             isCancelled = true;
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Cancel"),
+                                          child: Text('Cancel'),
                                         ),
                                     ],
                                   );
@@ -710,16 +733,20 @@ class _FileUploadSectionState extends ConsumerState<FileUploadSection> {
                           );
                         }
                       : null,
-                  icon: Icon(Icons.download,
-                      color: isButtonEnabled
-                          ? Theme.of(context).colorScheme.onPrimaryContainer
-                          : Theme.of(context).disabledColor),
+                  icon: Icon(
+                    Icons.download,
+                    color: isButtonEnabled
+                        ? Theme.of(context).colorScheme.onPrimaryContainer
+                        : Theme.of(context).disabledColor,
+                  ),
                   label: const Text('Download Context'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: isButtonEnabled
                         ? Theme.of(context).colorScheme.primaryContainer
-                        : Theme.of(context).disabledColor.withOpacity(0.12),
+                        : Theme.of(context)
+                            .disabledColor
+                            .withValues(alpha: 0.12),
                     foregroundColor: isButtonEnabled
                         ? Theme.of(context).colorScheme.onPrimaryContainer
                         : Theme.of(context).disabledColor,

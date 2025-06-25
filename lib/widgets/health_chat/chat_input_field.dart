@@ -56,7 +56,7 @@ class ChatInputField extends ConsumerWidget {
   final ValueChanged<bool> onToggleContext;
 
   const ChatInputField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.focusNode,
     required this.contextEnabled,
@@ -64,7 +64,7 @@ class ChatInputField extends ConsumerWidget {
     required this.aiIsLoading,
     required this.onSend,
     required this.onToggleContext,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,7 +73,8 @@ class ChatInputField extends ConsumerWidget {
 
       // Handles key events
       onKeyEvent: (FocusNode node, KeyEvent event) {
-        if (event.logicalKey == LogicalKeyboardKey.enter && event is KeyDownEvent) {
+        if (event.logicalKey == LogicalKeyboardKey.enter &&
+            event is KeyDownEvent) {
           if (HardwareKeyboard.instance.isShiftPressed) {
             return KeyEventResult.ignored;
           } else {
@@ -125,7 +126,10 @@ class ChatInputField extends ConsumerWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                     ),
                     onPressed: contextAvailable
                         ? () => onToggleContext(!contextEnabled)
@@ -140,8 +144,9 @@ class ChatInputField extends ConsumerWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 150),
                 child: TextField(
-                  controller: controller, 
-                  keyboardType: TextInputType.multiline, // Allow multiple lines of input
+                  controller: controller,
+                  keyboardType:
+                      TextInputType.multiline, // Allow multiple lines of input
                   minLines: 1, // Minimum number of lines
                   maxLines: 5, // Maximum number of lines
                   decoration: const InputDecoration.collapsed(

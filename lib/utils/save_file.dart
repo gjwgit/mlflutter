@@ -27,13 +27,9 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 
-/// Saves content to a file with a dialog for choosing the location.
-///
-/// [content] is the content to be saved.
-/// [defaultFileName] is the suggested filename shown in the save dialog, which includes the file extension.
-/// [initialDirectory] optionally specifies the initial directory in the file picker.
-///
-/// Returns a Future<String> that provides a message about the success or failure of the save operation.
+/// Saves [content] to a file with a dialog for choosing the location
+/// [defaultFileName] in [initialDirectory] to return a success message.
+
 Future<String> saveToFile({
   required String content,
   required String defaultFileName,

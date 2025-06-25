@@ -31,7 +31,8 @@ Widget logButton(BuildContext context, Function onTap, bool isSelected) {
     title: const Text('Log'),
     onTap: () => onTap(),
     selected: isSelected,
-    selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+    selectedTileColor:
+        Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
     selectedColor: Theme.of(context).colorScheme.primary,
   );
 }

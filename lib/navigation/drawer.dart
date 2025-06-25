@@ -100,7 +100,8 @@ class AppNavigationDrawer extends StatelessWidget {
       title: Text(text),
       onTap: () => onDestinationSelected(index),
       selected: selectedIndex == index,
-      selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      selectedTileColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
       selectedColor: Theme.of(context).colorScheme.primary,
     );
   }

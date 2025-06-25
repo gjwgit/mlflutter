@@ -1,6 +1,6 @@
 /// A content widget for the file browser.
 ///
-// Time-stamp: <Friday 2025-02-14 08:40:39 +1100 Graham Williams>
+// Time-stamp: <Thursday 2025-06-26 07:47:17 +1000 Graham Williams>
 ///
 /// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
@@ -101,7 +101,6 @@ class FileBrowserContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('in file browser content $selectedFiles');
     return ListView(
       children: [
         // Display directory list at the top.

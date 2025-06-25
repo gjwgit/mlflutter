@@ -1,6 +1,6 @@
 /// A file list item widget for displaying individual files.
 ///
-// Time-stamp: <Friday 2025-02-14 08:40:39 +1100 Graham Williams>
+// Time-stamp: <Thursday 2025-06-26 07:55:31 +1000 Graham Williams>
 ///
 /// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
@@ -73,7 +73,6 @@ class FileListItem extends StatelessWidget {
   const FileListItem({
     super.key,
     required this.file,
-
     required this.currentPath,
     required this.isSelected,
     required this.onFileSelected,
@@ -145,7 +144,7 @@ class FileListItem extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.15),
+                              .withValues(alpha: 0.15),
                           blurRadius: 6,
                           offset: Offset(0, 2),
                         ),

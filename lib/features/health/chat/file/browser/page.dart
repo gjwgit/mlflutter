@@ -1,6 +1,6 @@
 /// A file browser widget.
 ///
-// Time-stamp: <Friday 2025-02-14 08:40:39 +1100 Graham Williams>
+// Time-stamp: <Thursday 2025-06-26 07:48:10 +1000 Graham Williams>
 ///
 /// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
@@ -242,7 +242,6 @@ class FileBrowserState extends State<FileBrowser> {
 
   @override
   Widget build(BuildContext context) {
-    print('inside browser state: $selectedFiles');
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -275,7 +274,7 @@ class FileBrowserState extends State<FileBrowser> {
                       : FileBrowserContent(
                           directories: directories,
                           files: files,
-                          selectedFiles: selectedFiles ?? [],
+                          selectedFiles: selectedFiles,
                           directoryCounts: directoryCounts,
                           currentPath: currentPath,
                           selectedFile: selectedFile,
@@ -284,7 +283,9 @@ class FileBrowserState extends State<FileBrowser> {
                           onFileSelected: (name, path) {
                             setState(() {
                               selectedFiles = selectedFiles.contains(name)
-                                  ? selectedFiles.where((f) => f != name).toList()
+                                  ? selectedFiles
+                                      .where((f) => f != name)
+                                      .toList()
                                   : [...selectedFiles, name];
                             });
                             widget.onFileSelected.call(name, path);

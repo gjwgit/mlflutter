@@ -36,6 +36,7 @@ dependencies:
   syncfusion_flutter_pdf: ^30.1.37
   shared_preferences: ^2.0.15
 
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

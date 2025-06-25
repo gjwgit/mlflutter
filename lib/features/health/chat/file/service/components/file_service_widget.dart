@@ -1,6 +1,6 @@
 /// File service widget that provides file upload, download, and preview functionality.
 ///
-// Time-stamp: <Friday 2025-02-14 08:40:39 +1100 Graham Williams>
+// Time-stamp: <Thursday 2025-06-26 07:56:26 +1000 Graham Williams>
 ///
 /// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
@@ -32,8 +32,6 @@ import 'package:path/path.dart' as path;
 import 'package:mlflutter/features/health/chat/file/browser/page.dart';
 import 'package:mlflutter/features/health/chat/file/service/components/file_upload_section.dart';
 import 'package:mlflutter/features/health/chat/file/service/providers/file_service_provider.dart';
-import 'package:mlflutter/features/health/chat/providers/tab_state.dart';
-
 
 /// The main file service widget that provides file upload, download, and preview functionality.
 ///
@@ -53,7 +51,7 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
   /// Navigate to the appropriate folder based on the selected tab.
 
   void _navigateToFeatureFolder() {
-    final selectedIndex = ref.read(tabStateProvider).selectedIndex;
+    // final selectedIndex = ref.read(tabStateProvider).selectedIndex;
     // final feature =
     //     selectedIndex == 0 ? Feature.bloodPressure : Feature.vaccination;
     // final path =
@@ -156,7 +154,8 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                                     return AlertDialog(
                                       title: const Text('Confirm Delete'),
                                       content: Text(
-                                          'Are you sure you want to delete "$fileName"?'),
+                                        'Are you sure you want to delete "$fileName"?',
+                                      ),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>
@@ -199,7 +198,10 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                         flex: 1,
                         child: Card(
                           margin: const EdgeInsets.only(
-                              left: 8, right: 16, top: 16),
+                            left: 8,
+                            right: 16,
+                            top: 16,
+                          ),
                           child: const Padding(
                             padding: EdgeInsets.all(16),
                             child: FileUploadSection(),
@@ -248,7 +250,8 @@ class _FileServiceWidgetState extends ConsumerState<FileServiceWidget> {
                                   return AlertDialog(
                                     title: const Text('Confirm Delete'),
                                     content: Text(
-                                        'Are you sure you want to delete "$fileName"?'),
+                                      'Are you sure you want to delete "$fileName"?',
+                                    ),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>

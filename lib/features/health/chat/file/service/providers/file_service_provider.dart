@@ -155,8 +155,10 @@ class FileServiceNotifier extends StateNotifier<FileState> {
           _refreshCallback?.call();
         }
       } else if (context.mounted) {
-        showAlert(context,
-            'Upload failed - please check your connection and permissions.');
+        showAlert(
+          context,
+          'Upload failed - please check your connection and permissions.',
+        );
       }
     } catch (e) {
       if (context.mounted) {
@@ -218,7 +220,8 @@ class FileServiceNotifier extends StateNotifier<FileState> {
       if (fileContent == SolidFunctionCallStatus.fail.toString() ||
           fileContent == SolidFunctionCallStatus.notLoggedIn.toString()) {
         throw Exception(
-            'Download failed - please check your connection and permissions');
+          'Download failed - please check your connection and permissions',
+        );
       }
 
       await saveDecryptedContent(fileContent, outputFile);
@@ -323,7 +326,8 @@ class FileServiceNotifier extends StateNotifier<FileState> {
       if (fileContent == SolidFunctionCallStatus.fail.toString() ||
           fileContent == SolidFunctionCallStatus.notLoggedIn.toString()) {
         throw Exception(
-            'Download failed - please check your connection and permissions');
+          'Download failed - please check your connection and permissions',
+        );
       }
 
       // Save to temp directory
@@ -467,7 +471,9 @@ final fileServiceProvider =
 
 ////////////////////////////////
 Future<void> saveDecryptedContent(
-    String decryptedContent, String saveFilePath) async {
+  String decryptedContent,
+  String saveFilePath,
+) async {
   final file = File(saveFilePath);
 
   // Ensure the parent directory exists.
@@ -546,7 +552,7 @@ final textFileExtensions = [
   '.js',
   '.dart',
   '.yaml',
-  '.yml'
+  '.yml',
 ];
 
 /// Checks if a file is a text file based on its extension.

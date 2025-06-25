@@ -30,10 +30,10 @@ import 'package:mlflutter/features/health/chat/file/service/page.dart';
 
 class HealthChat extends StatefulWidget {
   @override
-  _HealthChatState createState() => _HealthChatState();
+  HealthChatState createState() => HealthChatState();
 }
 
-class _HealthChatState extends State<HealthChat> {
+class HealthChatState extends State<HealthChat> {
   bool _disclaimerShownThisSession = false;
   int _selectedIndex = 0;
 
