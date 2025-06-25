@@ -62,6 +62,7 @@ class AppNavigationDrawer extends StatelessWidget {
         leading: const Icon(Icons.language),
         title: const Text('Language'),
         children: [
+          _drawerItem(context, Icons.chat, 'Chat', 7, indent: 30.0),
           _drawerItem(context, Icons.search, 'Identify', 5, indent: 30.0),
           _drawerItem(context, Icons.transcribe, 'Transcribe', 1, indent: 30.0),
           _drawerItem(context, Icons.translate, 'Translate', 2, indent: 30.0),
@@ -79,13 +80,6 @@ class AppNavigationDrawer extends StatelessWidget {
             6,
             indent: 30.0,
           ),
-        ],
-      ),
-      ExpansionTile(
-        leading: const Icon(Icons.health_and_safety),
-        title: const Text('Health'),
-        children: [
-          _drawerItem(context, Icons.chat, 'Chat', 7, indent: 30.0),
         ],
       ),
       // Index 4 is used for logButton
