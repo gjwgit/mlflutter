@@ -1,10 +1,12 @@
-/// The Home widget, providing the main interface for the MLFlutter app.
+/// File service page for the file service feature.
 ///
-/// Copyright (C) 2025 The Authors
+// Time-stamp: <Friday 2025-02-14 08:40:39 +1100 Graham Williams>
 ///
-/// Licensed under the GNU General Public License, Version 3 (the "License");
+/// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
-/// License: https://www.gnu.org/licenses/gpl-3.0.en.html
+/// Licensed under the GNU General Public License, Version 3 (the "License").
+///
+/// License: https://www.gnu.org/licenses/gpl-3.0.en.html.
 //
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -19,34 +21,30 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang, Arjun Raj
-///
+/// Authors: Ashley Tang
 
 library;
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mlflutter/mlhub.dart';
 
-import 'package:solidpod/solidpod.dart';
+import 'package:mlflutter/features/health/chat/file/service/components/components.dart';
 
-class Home extends ConsumerWidget {
-  const Home({super.key});
+/// The file service page that provides file management functionality.
+///
+/// This page includes features for uploading, downloading, and managing files
+/// in the user's POD storage.
+
+class FileService extends ConsumerWidget {
+  const FileService({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      title: 'MLFlutter',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: SolidLogin(
-        required: false,
-        image: AssetImage('assets/images/solid_login_image.png'),
-        logo: AssetImage('assets/images/solid_login_logo.png'),
-        child: const MLHubMainPage(),
+    return Scaffold(
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: FileServiceWidget(),
       ),
     );
   }

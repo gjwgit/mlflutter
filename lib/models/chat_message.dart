@@ -1,6 +1,6 @@
-/// A widget that creates a log button for the navigation drawer.
+/// Model for a single chat message.
 ///
-/// Copyright (C) 2024 The Authors
+/// Copyright (C) 2025 The Authors
 ///
 /// Licensed under the GNU General Public License, Version 3 (the "License");
 ///
@@ -19,20 +19,27 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Arjun Raj
 
 library;
 
-import 'package:flutter/material.dart';
+// Enum to represent the sender of a message.
+enum Sender { user, ai }
 
-Widget logButton(BuildContext context, Function onTap, bool isSelected) {
-  return ListTile(
-    leading: const Icon(Icons.list_alt),
-    title: const Text('Log'),
-    onTap: () => onTap(),
-    selected: isSelected,
-    selectedTileColor:
-        Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-    selectedColor: Theme.of(context).colorScheme.primary,
-  );
+class ChatMessage {
+  // The sender of the message, either a user or AI.
+  final Sender sender;
+
+  // The actual content of the message.
+  final String text;
+
+  // A flag to indicate whether the message is loading.
+  // Mainly useful for asynchronous operations where the llm might be loading.
+  final bool isLoading;
+
+  ChatMessage({
+    required this.sender,
+    required this.text,
+    this.isLoading = false,
+  });
 }

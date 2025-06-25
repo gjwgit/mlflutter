@@ -1,10 +1,12 @@
-/// A widget that creates a log button for the navigation drawer.
+/// Components for the file service feature.
 ///
-/// Copyright (C) 2024 The Authors
+// Time-stamp: <Friday 2025-02-14 08:40:39 +1100 Graham Williams>
 ///
-/// Licensed under the GNU General Public License, Version 3 (the "License");
+/// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
-/// License: https://www.gnu.org/licenses/gpl-3.0.en.html
+/// Licensed under the GNU General Public License, Version 3 (the "License").
+///
+/// License: https://www.gnu.org/licenses/gpl-3.0.en.html.
 //
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -19,20 +21,13 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
-
+/// Authors: Ashley Tang
 library;
 
-import 'package:flutter/material.dart';
+/// Components for the file service feature.
+///
+/// This barrel file exports all the components used in the file service feature,
+/// making them easily accessible to other parts of the application.
 
-Widget logButton(BuildContext context, Function onTap, bool isSelected) {
-  return ListTile(
-    leading: const Icon(Icons.list_alt),
-    title: const Text('Log'),
-    onTap: () => onTap(),
-    selected: isSelected,
-    selectedTileColor:
-        Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-    selectedColor: Theme.of(context).colorScheme.primary,
-  );
-}
+export 'file_list.dart';
+export 'file_list_item.dart';

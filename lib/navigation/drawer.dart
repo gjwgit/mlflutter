@@ -1,6 +1,6 @@
 /// Navigation drawer for the MLFlutter app, providing access to different sections.
 ///
-/// Copyright (C) 2024 The Authors
+/// Copyright (C) 2025 The Authors
 ///
 /// Licensed under the GNU General Public License, Version 3 (the "License");
 ///
@@ -19,7 +19,7 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Ting Tang, Arjun Raj
 
 library;
 
@@ -62,6 +62,7 @@ class AppNavigationDrawer extends StatelessWidget {
         leading: const Icon(Icons.language),
         title: const Text('Language'),
         children: [
+          _drawerItem(context, Icons.chat, 'Chat', 7, indent: 30.0),
           _drawerItem(context, Icons.search, 'Identify', 5, indent: 30.0),
           _drawerItem(context, Icons.transcribe, 'Transcribe', 1, indent: 30.0),
           _drawerItem(context, Icons.translate, 'Translate', 2, indent: 30.0),
@@ -82,7 +83,7 @@ class AppNavigationDrawer extends StatelessWidget {
         ],
       ),
       // Index 4 is used for logButton
-      // Add more items as needed, next index to use: 7
+      // Add more items as needed, next index to use: 8
     ];
   }
 
@@ -99,7 +100,8 @@ class AppNavigationDrawer extends StatelessWidget {
       title: Text(text),
       onTap: () => onDestinationSelected(index),
       selected: selectedIndex == index,
-      selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      selectedTileColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
       selectedColor: Theme.of(context).colorScheme.primary,
     );
   }

@@ -1,10 +1,12 @@
-/// A widget that creates a log button for the navigation drawer.
+/// Path constants for the health pod application.
 ///
-/// Copyright (C) 2024 The Authors
+// Time-stamp: <Friday 2025-02-21 17:02:01 +1100 Graham Williams>
 ///
-/// Licensed under the GNU General Public License, Version 3 (the "License");
+/// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
-/// License: https://www.gnu.org/licenses/gpl-3.0.en.html
+/// Licensed under the GNU General Public License, Version 3 (the "License").
+///
+/// License: https://www.gnu.org/licenses/gpl-3.0.en.html.
 //
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -19,20 +21,9 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Kevin Wang.
 
 library;
 
-import 'package:flutter/material.dart';
-
-Widget logButton(BuildContext context, Function onTap, bool isSelected) {
-  return ListTile(
-    leading: const Icon(Icons.list_alt),
-    title: const Text('Log'),
-    onTap: () => onTap(),
-    selected: isSelected,
-    selectedTileColor:
-        Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-    selectedColor: Theme.of(context).colorScheme.primary,
-  );
-}
+/// Base path for all health data in the Pod.
+const String basePath = 'mlflutter/data';

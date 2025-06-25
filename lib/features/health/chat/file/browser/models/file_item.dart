@@ -1,10 +1,10 @@
-/// A widget that creates a log button for the navigation drawer.
+/// File item widget.
 ///
-/// Copyright (C) 2024 The Authors
+/// Copyright (C) 2024-2025, Software Innovation Institute, ANU.
 ///
-/// Licensed under the GNU General Public License, Version 3 (the "License");
+/// Licensed under the GNU General Public License, Version 3 (the "License").
 ///
-/// License: https://www.gnu.org/licenses/gpl-3.0.en.html
+/// License: https://www.gnu.org/licenses/gpl-3.0.en.html.
 //
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -19,20 +19,20 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Ashley Tang
 
 library;
 
-import 'package:flutter/material.dart';
+/// Represents a single file with its metadata such as name, path and date modified.
 
-Widget logButton(BuildContext context, Function onTap, bool isSelected) {
-  return ListTile(
-    leading: const Icon(Icons.list_alt),
-    title: const Text('Log'),
-    onTap: () => onTap(),
-    selected: isSelected,
-    selectedTileColor:
-        Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-    selectedColor: Theme.of(context).colorScheme.primary,
-  );
+class FileItem {
+  final String name;
+  final String path;
+  final DateTime dateModified;
+
+  FileItem({
+    required this.name,
+    required this.path,
+    required this.dateModified,
+  });
 }

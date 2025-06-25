@@ -1,6 +1,6 @@
-/// A widget that creates a log button for the navigation drawer.
+/// This file contains the constants for chat page.
 ///
-/// Copyright (C) 2024 The Authors
+/// Copyright (C) 2025 The Authors
 ///
 /// Licensed under the GNU General Public License, Version 3 (the "License");
 ///
@@ -19,20 +19,12 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang
+/// Authors: Arjun Raj
 
 library;
 
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 
-Widget logButton(BuildContext context, Function onTap, bool isSelected) {
-  return ListTile(
-    leading: const Icon(Icons.list_alt),
-    title: const Text('Log'),
-    onTap: () => onTap(),
-    selected: isSelected,
-    selectedTileColor:
-        Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-    selectedColor: Theme.of(context).colorScheme.primary,
-  );
-}
+String homeDir = Platform.environment['HOME'] ?? '';
+String contextDirPath = path.join(homeDir, '.mlhub/health_rag/vector_store/');
