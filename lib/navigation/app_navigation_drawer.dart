@@ -19,7 +19,7 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ting Tang, Arjun Raj
+/// Authors: Ting Tang, Arjun Raj, Graham Williams
 
 library;
 
