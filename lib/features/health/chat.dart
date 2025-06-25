@@ -47,7 +47,7 @@ class _HealthChatState extends State<HealthChat> {
       case 0:
         return 'Chat with AI';
       case 1:
-        return 'Browse your health files';
+        return 'Browse your files';
       default:
         return '';
     }
@@ -100,7 +100,7 @@ class _HealthChatState extends State<HealthChat> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Health Chat',
+              'Chat Bot',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Text(
