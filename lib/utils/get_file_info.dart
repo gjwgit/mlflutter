@@ -24,9 +24,10 @@
 library;
 
 import 'dart:async';
+import 'dart:io';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:mime/mime.dart';
-import 'dart:io';
 
 Future<String> getFileInfo(XFile file) async {
   String fileInfo = '';

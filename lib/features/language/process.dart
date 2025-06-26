@@ -45,9 +45,9 @@ import 'package:mlflutter/providers/language.dart';
 import 'package:mlflutter/utils/get_file_info.dart';
 import 'package:mlflutter/utils/save_file.dart';
 import 'package:mlflutter/widgets/conditional_button.dart';
-import 'package:mlflutter/widgets/language_selection.dart';
-import 'package:mlflutter/widgets/item_selection.dart';
 import 'package:mlflutter/widgets/file_drop.dart';
+import 'package:mlflutter/widgets/item_selection.dart';
+import 'package:mlflutter/widgets/language_selection.dart';
 import 'package:mlflutter/widgets/processing_overlay.dart';
 
 class LanguageProcess extends ConsumerStatefulWidget {

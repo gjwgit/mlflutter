@@ -27,9 +27,9 @@ library;
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mlflutter/mlhub.dart';
-
 import 'package:solidpod/solidpod.dart';
+
+import 'package:mlflutter/mlhub.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});

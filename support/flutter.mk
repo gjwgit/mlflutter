@@ -31,13 +31,11 @@ flutter:
 
   docs	    Run `dart doc` to create documentation.
 
+  import_order      Run import order checking.
+  import_order_fix  Run import order fixing.
+
   fix             Run `dart fix --apply`.
   format          Run `dart format`.
-  dcm             Run dart code metrics 
-    nullable	  Check NULLs from dart_code_metrics.
-    unused_code   Check unused code from dart_code_metrics.
-    unused_files  Check unused files from dart_code_metrics.
-    metrics	  Run analyze from dart_code_metrics.
   analyze         Run flutter analyze.
   ignore          Look for usage of ignore directives.
   license	  Look for missing top license in source code.
@@ -79,7 +77,7 @@ chrome:
 #
 # dart run build_runner build --delete-conflicting-outputs
 #
-# List the files that are automatically generated. Then they will get 
+# List the files that are automatically generated. Then they will get
 # built as required.
 
 # BUILD_RUNNER = \
@@ -123,7 +121,7 @@ linux_config:
 	flutter config --enable-linux-desktop
 
 .PHONY: prep
-prep: analyze fix format dcm ignore license todo
+prep: analyze fix import_order_fix format ignore license todo
 	@echo "ADVISORY: make tests docs"
 	@echo $(SEPARATOR)
 
@@ -132,7 +130,7 @@ docs::
 	dart doc
 	chmod -R go+rX doc
 
-SEPARATOR="\n------------------------------------------------------------------------\n"
+SEPARATOR="------------------------------------------------------------------------"
 
 .PHONY: fix
 fix:
@@ -157,34 +155,7 @@ bakfix:
 .PHONY: tests
 tests:: test qtest
 
-.PHONY: dcm
-dcm: nullable unused_code unused_files metrics
-
-.PHONY: nullable
-nullable:
-	@echo "Dart Code Metrics: NULLABLE"
-	-dart run dart_code_metrics:metrics check-unnecessary-nullable --disable-sunset-warning lib
-	@echo $(SEPARATOR)
-
-.PHONY: unused_code
-unused_code:
-	@echo "Dart Code Metrics: UNUSED CODE"
-	-dart run dart_code_metrics:metrics check-unused-code --disable-sunset-warning lib
-	@echo $(SEPARATOR)
-
-.PHONY: unused_files
-unused_files:
-	@echo "Dart Code Metrics: UNUSED FILES"
-	-dart run dart_code_metrics:metrics check-unused-files --disable-sunset-warning lib
-	@echo $(SEPARATOR)
-
-.PHONY: metrics 
-metrics:
-	@echo "Dart Code Metrics: METRICS"
-	-dart run dart_code_metrics:metrics analyze --disable-sunset-warning lib --reporter=console
-	@echo $(SEPARATOR)
-
-.PHONY: analyze 
+.PHONY: analyze
 analyze:
 	@echo "Futter ANALYZE"
 	-flutter analyze lib
@@ -245,31 +216,77 @@ test:
 	-flutter test test
 	@echo $(SEPARATOR)
 
+# For a specific interactive test we think of it as providing a
+# demonstration of the app functionality that we may actually use to
+# create a narrated video. A INTERACT of 5 or more is then useful.
+
 %.itest:
-	flutter test --dart-define=PAUSE=5 --device-id \
-	$(shell flutter devices | grep desktop | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|') \
-	integration_test/$*_test.dart
+	@device_id=$(shell flutter devices | grep -E 'linux|macos|windows' | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|'); \
+	if [ -z "$$device_id" ]; then \
+		echo "No desktop device found. Please ensure you have the correct desktop platform enabled."; \
+		exit 1; \
+	fi; \
+	flutter test --dart-define=INTERACT=5 --device-id $$device_id integration_test/$*.dart
+
+# For a run over all tests interactively we INTERACT a little but not as
+# much as when running the individual tests.
 
 .PHONY: itest
 itest:
-	@echo "Pausing integration TEST:"
-	for t in integration_test/*_test.dart; do flutter test --dart-define=PAUSE=5 --device-id \
-	$(shell flutter devices | grep desktop | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|') \
-	$$t; done
+	@device_id=$(shell flutter devices | grep -E 'linux|macos|windows' | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|'); \
+	if [ -z "$$device_id" ]; then \
+		echo "No desktop device found. Please ensure you have the correct desktop platform enabled."; \
+		exit 1; \
+	fi; \
+	for t in integration_test/*.dart; do flutter test --dart-define=INTERACT=2 --device-id $$device_id $$t; done
 	@echo $(SEPARATOR)
+
+# For the quick tests we do not INTERACT at all. The aim is to quickly
+# test all functionality.
 
 .PHONY: qtest
 qtest:
-	@echo "Quick integration TEST:"
-	-for t in integration_test/*_test.dart; do flutter test --dart-define=PAUSE=0 --device-id \
-	$(shell flutter devices | grep desktop | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|') \
-	$$t; done
+	@device_id=$(shell flutter devices | grep -E 'linux|macos|windows' | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|'); \
+	if [ -z "$$device_id" ]; then \
+		echo "No desktop device found. Please ensure you have the correct desktop platform enabled."; \
+		exit 1; \
+	fi; \
+	for t in integration_test/*.dart; do \
+		echo "========================================"; \
+		echo $$t; /bin/echo -n $$t >&2; \
+		echo "========================================"; \
+		flutter test --dart-define=INTERACT=0 --device-id $$device_id --reporter failures-only  $$t 2>/dev/null; \
+		if [ "$$?" -eq 0 ]; then /bin/echo ' YES' >&2; else /bin/echo -n ' ...' >&2; \
+		echo '****************************************> TRY AGAIN'; \
+		flutter test --dart-define=INTERACT=0 --device-id $$device_id --reporter failures-only  $$t 2>/dev/null; \
+		if [ "$$?" -eq 0 ]; then /bin/echo ' YES' >&2; else /bin/echo ' NO *****' >&2; fi; fi; \
+	done
 	@echo $(SEPARATOR)
 
 %.qtest:
-	flutter test --dart-define=PAUSE=0 --device-id \
+	@device_id=$(shell flutter devices | grep -E 'linux|macos|windows' | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|'); \
+	if [ -z "$$device_id" ]; then \
+		echo "No desktop device found. Please ensure you have the correct desktop platform enabled."; \
+		exit 1; \
+	fi; \
+	flutter test --dart-define=INTERACT=0 --device-id $$device_id --reporter failures-only integration_test/$*.dart 2>/dev/null
+
+.PHONY: qtest.all
+qtest.all:
+	@echo $(APP) `egrep '^version: ' pubspec.yaml`
+	@echo "flutter version:" `flutter --version | head -1 | cut -d ' ' -f 2`
+	make qtest > qtest_$(shell date +%Y%m%d%H%M%S).txt
+
+clean::
+	rm -f qtest_*.txt
+
+.PHONY: atest
+atest:
+	@echo "Full integration TEST:"
+	flutter test --dart-define=INTERACT=0 --verbose --device-id \
 	$(shell flutter devices | grep desktop | perl -pe 's|^[^•]*• ([^ ]*) .*|\1|') \
-	integration_test/$*_test.dart
+	integration_test
+	@echo $(SEPARATOR)
 
 .PHONY: coverage
 coverage:
@@ -291,7 +308,7 @@ realclean::
 
 tgz:: $(APP)-$(VER)-linux-x86_64.tar.gz
 
-$(APP)-$(VER)-linux-x86_64.tar.gz:
+$(APP)-$(VER)-linux-x86_64.tar.gz: clean
 	mkdir -p installers
 	rm -rf build/linux/x64/release
 	flutter build linux --release
@@ -333,6 +350,18 @@ endif
 .PHONY: publish
 publish:
 	dart pub publish
+
+.PHONY: import_order
+import_order:
+	@echo "Dart: CHECK IMPORT ORDER"
+	dart run custom_lint
+	@echo $(SEPARATOR)
+
+.PHONY: import_order_fix
+import_order_fix:
+	@echo "Dart: FIX IMPORT ORDER"
+	dart run import_order_lint:fix_imports --project-name=$(APP) -r lib
+	@echo $(SEPARATOR)
 
 ### TODO THESE SHOULD BE CHECKED AND CLEANED UP
 

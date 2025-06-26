@@ -32,10 +32,10 @@ import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as path;
-import 'package:solidpod/solidpod.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+import 'package:solidpod/solidpod.dart';
 
 import 'package:mlflutter/features/health/chat/constants/paths.dart';
 import 'package:mlflutter/features/health/chat/file/service/models/file_state.dart';

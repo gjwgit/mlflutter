@@ -26,13 +26,14 @@ library;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:mlflutter/constants/chat.dart';
 import 'package:mlflutter/models/chat_message.dart';
 import 'package:mlflutter/providers/health_chat/chat_provider.dart';
-import 'package:mlflutter/widgets/health_chat/chat_message_bubble.dart';
 import 'package:mlflutter/widgets/health_chat/chat_input_field.dart';
-import 'package:mlflutter/constants/chat.dart';
+import 'package:mlflutter/widgets/health_chat/chat_message_bubble.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key});
